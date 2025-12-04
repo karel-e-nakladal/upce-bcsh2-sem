@@ -1,0 +1,35 @@
+﻿<Page x:Class="WpfApp1.View.WorldView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfApp1.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="WorldView">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Column="0">
+            <Button Content="World Selection" Command="{Binding BackCommand}"/>
+            <TextBlock Text="{Binding World.Name}" />
+            <Image Source="{Binding World.Icon}"/>
+            <TextBlock Text="{Binding World.Description}" />
+            <TextBlock Text="{Binding World.Created}" />
+            <Button Content="Edit Page" Command="{Binding EditCommand}"/>
+            <Button Content="Add Entity" Command="{Binding AddCommand}"/>
+        </StackPanel>
+        <FlowDocumentScrollViewer Grid.Column="1">
+            <FlowDocument>
+                
+            </FlowDocument>
+        </FlowDocumentScrollViewer>
+    </Grid>
+</Page>

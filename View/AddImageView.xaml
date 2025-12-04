@@ -1,0 +1,20 @@
+﻿<Window x:Class="WpfApp1.View.AddImageView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1.View"
+        mc:Ignorable="d"
+        Title="Image" Height="120" Width="200">
+    <Grid>
+        <StackPanel Margin="10">
+            <TextBlock Text="Name of the image"/>
+            <TextBox x:Name="Name"/>
+            <Button Content="Select image"/>
+            <StackPanel Margin="10" Orientation="Horizontal">
+                <Button Content="Ok" Click="Ok"/>
+                <Button Content="Cancel" Click="Cancel"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

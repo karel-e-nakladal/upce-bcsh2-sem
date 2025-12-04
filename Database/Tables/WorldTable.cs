@@ -4,38 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Media.TextFormatting;
-using WpfApp1.DataType.Database.Entities;
+using WpfApp1.Database;
+using WpfApp1.DataType.Entity;
 
-namespace WpfApp1.Database.Tables
+namespace WpfApp1.DataType.Database.Table
 {
-    class WorldsTable : Table<World>
+    public class WorldTable
     {
-        public WorldsTable()
+
+        private DB _db = DB.GetInstance();
+        public World Get(int id)
         {
-        }
-        
-        public override World[] GetAll()
-        {
-            var conn = db.getConnection();
-
-            var cmd = conn.CreateCommand();
-
-            cmd.CommandText = $"SELECT * FROM worlds";
-
-            SqliteDataReader reader = cmd.ExecuteReader();
-            var tmp = new List<World>();
-
-            while (reader.Read())
-            {
-                tmp.Add(Format(reader));
-            }
-            return tmp.ToArray();
-
-        }
-        public override World Get(int id)
-        {
-            var conn = db.getConnection();
+            var conn = _db.getConnection();
 
             var cmd = conn.CreateCommand();
 
@@ -46,9 +26,9 @@ namespace WpfApp1.Database.Tables
             return Format(cmd.ExecuteReader());
         }
 
-        public override World Add(World item)
+        public World Add(World item)
         {
-            var conn = db.getConnection();
+            var conn = _db.getConnection();
 
             var cmd = conn.CreateCommand();
 
@@ -74,9 +54,9 @@ namespace WpfApp1.Database.Tables
             return null;
         }
 
-        public override World Update(World item)
+        public World Update(World item)
         {
-            var conn = db.getConnection();
+            var conn = _db.getConnection();
 
             var cmd = conn.CreateCommand();
 
@@ -93,11 +73,11 @@ namespace WpfApp1.Database.Tables
             return item;
         }
 
-        public override World Remove(int id)
+        public World Remove(int id)
         {
             World removed = Get(id);
 
-            var conn = db.getConnection();
+            var conn = _db.getConnection();
 
             var cmd = conn.CreateCommand();
 
@@ -110,8 +90,8 @@ namespace WpfApp1.Database.Tables
             return removed;
 
         }
-        
-        protected override World Format(SqliteDataReader reader)
+
+        public static World Format(SqliteDataReader reader)
         {
             return new World
             {

@@ -1,4 +1,4 @@
-﻿<Page x:Class="WpfApp1.View.WorldListPage"
+﻿<Page x:Class="WpfApp1.View.WorldListView"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,41 +6,38 @@
       xmlns:local="clr-namespace:WpfApp1.View"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="WorldListPage">
+      Title="WorldList">
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <!-- Levé menu -->
+        <Grid.ColumnDefinitions >
+            <ColumnDefinition Width="300"/>
             <ColumnDefinition Width="*"/>
-            <!-- Pravá mřížka -->
         </Grid.ColumnDefinitions>
-
-        <!-- Levé malé menu -->
-        <StackPanel Grid.Column="0" Margin="10">
+        
+        <StackPanel Grid.Column="0">
             <TextBlock Text="Selected World" FontWeight="Bold"/>
-            <TextBlock Text="{Binding SelectedWorld.Name}" Margin="0,5,0,0"/>
-            <TextBlock Text="{Binding SelectedWorld.Description}" TextWrapping="Wrap" Margin="0,5,0,0"/>
-
-            <Button Content="Select World" Command="{Binding SelectWorldCommand}" Margin="0,20,0,0" />
-
-            <Button Content="Add World!" Command="{Binding CreateWorldCommand}" Margin="0,20,0,0" />
+            <TextBlock Text="{Binding SelectedWorld.Name}" Margin=" 0, 5, 0, 0"/>
+            <TextBlock Text="{Binding SelectedWorld.Created}" Margin="0, 5, 0, 0"/>
+            <TextBlock Text="{Binding SelectedWorld.Description}" Margin="0, 5, 0, 0"/>
+            <Button Content="Select World" Command="{Binding SelectCommand}" Margin="0, 5, 0, 0"/>
+            <Button Content="Edit World" Command="{Binding EditCommand}" Margin="0, 5, 0, 0"/>
+            <Button Content="Delete World" Command="{Binding DeleteCommand}"  Margin="0, 10, 0, 0"/>
+            <Button Content="Add World" Command="{Binding AddCommand}" Margin="0, 30, 0, 0"/>
 
         </StackPanel>
 
-        <!-- Pravá mřížka -->
-        <ListBox Grid.Column="1" ItemsSource="{Binding Worlds}" 
-         SelectedItem="{Binding SelectedWorld, Mode=TwoWay}" 
-         HorizontalContentAlignment="Stretch">
+        <ListBox Grid.Column="1" ItemsSource="{Binding Worlds}"
+                 SelectedItem="{Binding SelectedWorld, Mode=TwoWay}"
+                 HorizontalAlignment="Stretch">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel />
+                    <WrapPanel/>
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
 
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderBrush="Gray" BorderThickness="1" Margin="5" Padding="5">
+                    <Border >
                         <StackPanel>
                             <Image Source="{Binding Icon}" Width="64" Height="64"/>
                             <TextBlock Text="{Binding Name}" HorizontalAlignment="Center"/>
@@ -48,6 +45,8 @@
                     </Border>
                 </DataTemplate>
             </ListBox.ItemTemplate>
+            
         </ListBox>
+
     </Grid>
 </Page>

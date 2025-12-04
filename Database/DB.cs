@@ -61,6 +61,10 @@ namespace WpfApp1.Database
 
             // Worlds
             CreateWorlds();
+            CreateLocations();
+            CreateNations();
+            CreateCharacters();
+            CreateItems();
         }
 
         private void CreateWorlds()
@@ -69,10 +73,76 @@ namespace WpfApp1.Database
 
             cmd.CommandText = "CREATE TABLE IF NOT EXISTS worlds (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "name Varchar(100) NOT NULL," + // name
+                "name VARCHAR(100) NOT NULL," + // name
                 "description TEXT NOT NULL," + // description
                 "icon VARCHAR(100) NOT NULL," + // description
                 "map VARCHAR(150)" + // link to map image
+                ");";
+            cmd.ExecuteNonQuery();
+        }
+
+        private void CreateLocations()
+        {
+            var cmd = connection.CreateCommand();
+
+            cmd.CommandText = "CREATE TABLE IF NOT EXISTS locations (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "world_id INTEGER," + // world
+                "readable_id VARCHAR(50)," +
+                "name VARCHAR(100) NOT NULL," + // name
+                "description TEXT NOT NULL," + // description
+                "icon VARCHAR(100) NOT NULL," + // description
+                "map VARCHAR(150)," +
+                "FOREIGN KEY(world_id) REFERENCES worlds(id)" + // link to map image
+                ");";
+            cmd.ExecuteNonQuery();
+        }
+
+        private void CreateNations()
+        {
+            var cmd = connection.CreateCommand();
+
+            cmd.CommandText = "CREATE TABLE IF NOT EXISTS nations (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "world_id INTEGER," + // world
+                "readable_id VARCHAR(50)," +
+                "name VARCHAR(100) NOT NULL," + // name
+                "description TEXT NOT NULL," + // description
+                "icon VARCHAR(100) NOT NULL," + // description
+                "map VARCHAR(150)," +
+                "FOREIGN KEY(world_id) REFERENCES worlds(id)" + // link to map image
+                ");";
+            cmd.ExecuteNonQuery();
+        }
+        private void CreateCharacters()
+        {
+            var cmd = connection.CreateCommand();
+
+            cmd.CommandText = "CREATE TABLE IF NOT EXISTS characters (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "world_id INTEGER," + // world
+                "readable_id VARCHAR(50)," +
+                "name VARCHAR(100) NOT NULL," + // name
+                "description TEXT NOT NULL," + // description
+                "icon VARCHAR(100) NOT NULL," + // description
+                "map VARCHAR(150)," +
+                "FOREIGN KEY(world_id) REFERENCES worlds(id)" + // link to map image
+                ");";
+            cmd.ExecuteNonQuery();
+        }
+        private void CreateItems()
+        {
+            var cmd = connection.CreateCommand();
+
+            cmd.CommandText = "CREATE TABLE IF NOT EXISTS items (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "world_id INTEGER," + // world
+                "readable_id VARCHAR(50)," +
+                "name VARCHAR(100) NOT NULL," + // name
+                "description TEXT NOT NULL," + // description
+                "icon VARCHAR(100) NOT NULL," + // description
+                "map VARCHAR(150)," +
+                "FOREIGN KEY(world_id) REFERENCES worlds(id)" + // link to map image
                 ");";
             cmd.ExecuteNonQuery();
         }

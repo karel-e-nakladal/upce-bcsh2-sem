@@ -1,0 +1,47 @@
+﻿<Window x:Class="WpfApp1.View.AddEntityView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1.View"
+        mc:Ignorable="d"
+        Title="New Entity" Height="450" Width="800">
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="10">
+            <!-- Name -->
+            <TextBlock Text="Name"/>
+            <TextBox Width="100" HorizontalAlignment="Left" x:Name="Name"/>
+            <!-- ReadableId -->
+            <TextBlock Text="Readable Id (Used in links)"/>
+            <TextBox Width="100" HorizontalAlignment="Left" x:Name="ReadableId"/>
+            <!-- Icon -->
+            <TextBlock Text="Icon"/>
+            <Image Height="64" Width="64"/>
+            <!-- Change icon -->
+            <Button Content="Change Icon" Width="100" Command="{Binding ChangeIconCommand}"/>
+            <!-- Description -->
+            <TextBlock Text="Description"/>
+            <!-- Description -->
+            <ScrollViewer Width="200" Height="150" HorizontalAlignment="Left">
+                <TextBox x:Name="Description"/>
+            </ScrollViewer>
+            <!-- Galery-->
+            <TextBlock Text="Galery"/>
+            <ListView ItemsSource="{Binding GaleryImages}">
+
+            </ListView>
+            <!-- Rich text editor -->
+            <local:RichTextEditorView DataContext="{Binding RichTextEditor}" x:Name="RichText"/>
+            <!-- Relations -->
+        
+            <!-- Controls -->
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Ok" Click="Ok"/>
+                <Button Content="Save" Command="{Binding SaveCommand}"/>
+                <Button Content="Cancel" Click="Cancel"/>
+            </StackPanel>
+        </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>

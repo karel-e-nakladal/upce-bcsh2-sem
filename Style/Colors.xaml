@@ -1,0 +1,45 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <SolidColorBrush x:Key="Background" Color="#613802"/>
+    <SolidColorBrush x:Key="Border" Color="#1f4001"/>
+    <SolidColorBrush x:Key="Highlight" Color="#3d5e04"/>
+    <SolidColorBrush x:Key="Text" Color="#f7bf25"/>
+
+    <Style TargetType="Control">
+        <Setter Property="FontSize" Value="30"/>
+    </Style>
+    
+    <Style TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource Text}"/>
+    </Style>
+    
+    <Style TargetType="TextBox">
+        <Setter Property="Foreground" Value="{StaticResource Text}"/>
+        <Setter Property="Background" Value="{StaticResource Border}"/>
+    </Style>
+
+    <Style TargetType="Grid">
+        <Setter Property="Background" Value="{StaticResource Background}"/>
+    </Style>
+    
+    <Style TargetType="StackPanel">
+        <Setter Property="Background" Value="{StaticResource Background}"/>
+    </Style>
+
+    <Style TargetType="Button" >
+        <Setter Property="Background" Value="{StaticResource Background}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Border}"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource Highlight}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="ListBox">
+        <Setter Property="Background" Value="{StaticResource Background}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Border}"/>
+    </Style>
+
+</ResourceDictionary>

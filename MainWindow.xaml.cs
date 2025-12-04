@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.ComponentModel;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -13,7 +14,6 @@ using SQLitePCL;
 using WpfApp1.Database;
 using WpfApp1.DataType.Database;
 using WpfApp1.View;
-using WpfApp1.ViewModels;
 
 namespace WpfApp1;
 
@@ -22,10 +22,13 @@ namespace WpfApp1;
 /// </summary>
 public partial class MainWindow : Window
 {
+
+    public static MainWindow Instance;
     public MainWindow()
     {
         InitializeComponent();
-        MainFrame.Navigate(new WorldListPage());
+        Instance = this;
+        MainFrame.Navigate(new WorldListView());
     }
 
 }

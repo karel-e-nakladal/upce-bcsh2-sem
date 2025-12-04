@@ -10,24 +10,21 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp1.ViewModel;
 
 namespace WpfApp1.View
 {
     /// <summary>
-    /// Interaction logic for NewWorldWindow.xaml
+    /// Interaction logic for RelationsEditorView.xaml
     /// </summary>
-    public partial class NewWorldWindow : Window
+    public partial class RelationsEditorView : UserControl
     {
-        public NewWorldWindow()
+        public RelationsEditorView()
         {
             InitializeComponent();
-        }
-
-        private void Ok_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = true;
-            Close();
+            DataContext = new RelationsEditorViewModel();
         }
     }
 }

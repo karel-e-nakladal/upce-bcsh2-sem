@@ -12,17 +12,19 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp1.ViewModel;
 
 namespace WpfApp1.View
 {
     /// <summary>
-    /// Interaction logic for WorldPage.xaml
+    /// Interaction logic for WorldList.xaml
     /// </summary>
-    public partial class WorldPage : Page
+    public partial class WorldListView : Page
     {
-        public WorldPage()
+        public WorldListView()
         {
             InitializeComponent();
+            DataContext = new WorldListViewModel();
         }
     }
 }
