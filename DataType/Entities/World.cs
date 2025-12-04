@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using WpfApp1.Database;
 using WpfApp1.DataType.Database.Table;
-using WpfApp1.DataType.Entity.RealEntities;
+using WpfApp1.DataType.Entities.RealEntities;
 
-namespace WpfApp1.DataType.Entity
+namespace WpfApp1.DataType.Entities
 {
     public class World : Entity
     {

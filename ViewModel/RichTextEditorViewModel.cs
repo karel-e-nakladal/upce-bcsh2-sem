@@ -1,11 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using WpfApp1.DataType.Entities;
+using WpfApp1.DataType.Contents;
 using WpfApp1.View;
 
 namespace WpfApp1.ViewModel
@@ -18,10 +21,19 @@ namespace WpfApp1.ViewModel
         public IRelayCommand ImageCommand { get; }
         public IRelayCommand LinkCommand { get; }
 
-        public Page content = new();
+        public EntityPage content;
 
         public RichTextEditorViewModel()
         {
+            content = new();
+            HeaderCommand = new RelayCommand(Header);
+            ParagraphCommand = new RelayCommand(Paragraph);
+            ImageCommand = new RelayCommand(Image);
+            LinkCommand = new RelayCommand(Link);
+        }
+        public RichTextEditorViewModel(Entity e)
+        {
+            content = new EntityPage() { Owner = e};
             HeaderCommand = new RelayCommand(Header);
             ParagraphCommand = new RelayCommand(Paragraph);
             ImageCommand = new RelayCommand(Image);
@@ -33,7 +45,6 @@ namespace WpfApp1.ViewModel
 
             if(dia.ShowDialog() == true)
             {
-
             }
         }
 

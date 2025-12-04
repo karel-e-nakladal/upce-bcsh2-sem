@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using WpfApp1.DataType;
-using WpfApp1.DataType.Entity;
+using WpfApp1.DataType.Entities;
 using WpfApp1.View;
 
 namespace WpfApp1.ViewModel

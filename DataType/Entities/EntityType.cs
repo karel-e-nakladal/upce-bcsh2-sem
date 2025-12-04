@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfApp1.DataType.Entity
+namespace WpfApp1.DataType.Entities
 {
     public enum EntityType
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfApp1.DataType.Entity.RealEntities
+namespace WpfApp1.DataType.Entities.RealEntities
 {
     public class Nation : RealEntity
     {

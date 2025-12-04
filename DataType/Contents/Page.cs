@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Documents;
+using WpfApp1.DataType.Entities;
 
-namespace WpfApp1.DataType.Entity
+
+namespace WpfApp1.DataType.Contents
 {
-    public class Page
+    public class EntityPage
     {
         public int Id { init; get; }
 

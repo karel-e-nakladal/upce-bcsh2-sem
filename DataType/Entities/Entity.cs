@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WpfApp1.DataType.Contents;
 
-namespace WpfApp1.DataType.Entity
+namespace WpfApp1.DataType.Entities
 {
     public abstract class Entity
     {
@@ -13,6 +14,6 @@ namespace WpfApp1.DataType.Entity
 
         public string ?Name { get; set; }
         
-        public Page ?Content { get; set; }
+        public EntityPage? Content { get; set; }
     }
 }

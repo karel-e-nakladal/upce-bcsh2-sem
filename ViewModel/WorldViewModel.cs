@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp1.DataType;
-using WpfApp1.DataType.Entity;
+using WpfApp1.DataType.Entities;
 using WpfApp1.View;
 
 namespace WpfApp1.ViewModel

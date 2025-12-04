@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp1.DataType.Database;
-using WpfApp1.DataType.Entity;
+using WpfApp1.DataType.Entities;
 
 namespace WpfApp1.DataType
 {

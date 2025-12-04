@@ -11,13 +11,13 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="5" >
-            <Button Content="Add Header" Command="{Binding HeaderCommand}"/>
-            <Button Content="Add Paragraph" Command="{Binding ParagraphCommand}"/>
-            <Button Content="Add Image" Command="{Binding ImageCommand}"/>
-            <Button Content="Add Link" Command="{Binding LinkCommand}"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="5">
+            <Button Margin="10" Content="Add Header" Command="{Binding HeaderCommand}"/>
+            <Button Margin="10" Content="Add Paragraph" Command="{Binding ParagraphCommand}"/>
+            <Button Margin="10" Content="Add Image" Command="{Binding ImageCommand}"/>
+            <Button Margin="10" Content="Add Link" Command="{Binding LinkCommand}"/>
         </StackPanel>
-        <FlowDocumentScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+        <FlowDocumentScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="10">
             <FlowDocument x:Name="Document">
             </FlowDocument>
         </FlowDocumentScrollViewer>
