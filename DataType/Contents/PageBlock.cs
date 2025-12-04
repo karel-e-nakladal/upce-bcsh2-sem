@@ -13,7 +13,7 @@ namespace WpfApp1.DataType.Contents
         Image,
         Link,
     }
-    public class Block
+    public class PageBlock
     {
         public ContentType Type { get; set; }
         public string? Text { get; set; }

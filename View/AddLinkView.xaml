@@ -5,16 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.View"
         mc:Ignorable="d"
-        Title="Link" Height="140" Width="300">
+        Title="Link" Height="180" Width="300">
     <Grid>
         <StackPanel Margin="10">
             <TextBlock Text="Create a Link to another Entity"/>
-            <TextBox/>
+            <TextBlock Text="Displayed text"/>
+            <TextBox x:Name="Name"/>
             <TextBlock Text="Readable id of the entity you want to link to"/>
-            <TextBox/>
+            <TextBox x:Name="ReadableId"/>
             <StackPanel Margin="10" Orientation="Horizontal">
-                <Button Content="Ok" Click="Ok"/>
-                <Button Content="Cancel" Click="Cancel"/>
+                <Button Content="Ok" Click="Ok" IsDefault="True"/>
+                <Button Content="Cancel" IsCancel="True"/>
             </StackPanel>
         </StackPanel>
     </Grid>

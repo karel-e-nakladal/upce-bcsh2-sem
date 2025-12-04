@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.View"
         mc:Ignorable="d"
-        Title="Header" Height="100" Width="200">
+        Title="Header" Height="150" Width="300">
     <Grid>
         <StackPanel Margin="10">
             <TextBlock Text="Header"/>
             <TextBox x:Name="Header"/>
             <StackPanel Margin="10" Orientation="Horizontal">
-                <Button Content="Ok" Click="Ok"/>
-                <Button Content="Cancel" Click="Cancel"/>
+                <Button Content="Ok" Click="Ok" IsDefault="True"/>
+                <Button Content="Cancel" IsCancel="True"/>
             </StackPanel>
         </StackPanel>
     </Grid>

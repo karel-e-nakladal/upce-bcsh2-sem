@@ -10,11 +10,15 @@ using System.Windows.Controls;
 using WpfApp1.DataType.Entities;
 using WpfApp1.DataType.Contents;
 using WpfApp1.View;
+using System.Reflection.Metadata;
+using System.Windows.Documents;
 
 namespace WpfApp1.ViewModel
 {
     public partial class RichTextEditorViewModel : ObservableObject
     {
+        [ObservableProperty]
+        private FlowDocument document = new();
 
         public IRelayCommand HeaderCommand { get; }
         public IRelayCommand ParagraphCommand { get; }
@@ -38,14 +42,28 @@ namespace WpfApp1.ViewModel
             ParagraphCommand = new RelayCommand(Paragraph);
             ImageCommand = new RelayCommand(Image);
             LinkCommand = new RelayCommand(Link);
+
         }
+
+        private void Update()
+        {
+            Document.Blocks.Clear();
+            Document.Blocks.AddRange(content.Build());
+        }
+
         private void Header()
         {
             var dia = new AddHeaderView();
 
             if(dia.ShowDialog() == true)
             {
+                content.Content.Add(new PageBlock()
+                {
+                    Type = ContentType.Heading,
+                    Text = dia.Header.Text
+                });
             }
+            Update();
         }
 
         private void Paragraph()
@@ -54,8 +72,13 @@ namespace WpfApp1.ViewModel
 
             if (dia.ShowDialog() == true)
             {
-
+                content.Content.Add(new PageBlock()
+                {
+                    Type = ContentType.Paragraph,
+                    Text = dia.Paragraph.Text
+                });
             }
+            Update();
         }
 
         private void Image()
@@ -64,8 +87,14 @@ namespace WpfApp1.ViewModel
 
             if (dia.ShowDialog() == true)
             {
-
+                content.Content.Add(new PageBlock()
+                {
+                    Type = ContentType.Image,
+                    Text = dia.Name.Text,
+                    Path = dia.Name.Text,
+                });
             }
+            Update();
         }
 
         private void Link()
@@ -74,8 +103,14 @@ namespace WpfApp1.ViewModel
 
             if (dia.ShowDialog() == true)
             {
-
+                content.Content.Add(new PageBlock()
+                {
+                    Type = ContentType.Link,
+                    Text = dia.Name.Text,
+                    Url = dia.ReadableId.Text
+                });
             }
+            Update();
         }
     }
 }

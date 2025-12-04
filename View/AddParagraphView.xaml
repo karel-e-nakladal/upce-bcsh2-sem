@@ -5,16 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.View"
         mc:Ignorable="d"
-        Title="Paragraph" Height="240" Width="200">
-    <Grid>
+        Title="Paragraph" Height="260" Width="200">
+    <Grid >
         <StackPanel Margin="10">
             <TextBlock Text="Paragraph"/>
             <ScrollViewer>
                 <TextBox Height="150" x:Name="Paragraph"/>
             </ScrollViewer>
             <StackPanel Margin="10" Orientation="Horizontal">
-                <Button Content="Ok" Click="Ok"/>
-                <Button Content="Cancel" Click="Cancel"/>
+                <Button Content="Ok" Click="Ok" IsDefault="True"/>
+                <Button Content="Cancel" IsCancel="True"/>
             </StackPanel>
 
         </StackPanel>

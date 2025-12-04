@@ -28,10 +28,5 @@ namespace WpfApp1.View
             DialogResult = true;
             Close();
         }
-
-        private void Cancel(Object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
     }
 }

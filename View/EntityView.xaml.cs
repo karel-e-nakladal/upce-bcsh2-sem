@@ -10,23 +10,26 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp1.ViewModel;
 
 namespace WpfApp1.View
 {
     /// <summary>
-    /// Interaction logic for AddLinkView.xaml
+    /// Interaction logic for EntityView.xaml
     /// </summary>
-    public partial class AddLinkView : Window
+    public partial class EntityView : Page
     {
-        public AddLinkView()
+        public EntityView()
         {
             InitializeComponent();
+            DataContext = new EntityViewModel();
         }
-        private void Ok(Object sender, RoutedEventArgs e)
+        public EntityView(string readableId)
         {
-            DialogResult = true;
-            Close();
+            InitializeComponent();
+            DataContext = new EntityViewModel();
         }
     }
 }

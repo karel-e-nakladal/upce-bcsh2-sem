@@ -5,15 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.View"
         mc:Ignorable="d"
-        Title="Image" Height="120" Width="200">
+        Title="Image" Height="160" Width="300">
     <Grid>
         <StackPanel Margin="10">
             <TextBlock Text="Name of the image"/>
             <TextBox x:Name="Name"/>
             <Button Content="Select image"/>
             <StackPanel Margin="10" Orientation="Horizontal">
-                <Button Content="Ok" Click="Ok"/>
-                <Button Content="Cancel" Click="Cancel"/>
+                <Button Content="Ok" Click="Ok" IsDefault="True"/>
+                <Button Content="Cancel" IsCancel="True"/>
             </StackPanel>
         </StackPanel>
     </Grid>
