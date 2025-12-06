@@ -5,7 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 using WpfApp1.DataType;
+using WpfApp1.DataType.Contents;
 using WpfApp1.DataType.Entities;
 using WpfApp1.View;
 
@@ -15,6 +17,9 @@ namespace WpfApp1.ViewModel
     {
         [ObservableProperty]
         private World _world;
+
+        [ObservableProperty]
+        private FlowDocument page = new();
 
         public IRelayCommand BackCommand { get; }
         public IRelayCommand EditCommand { get; }
@@ -37,7 +42,15 @@ namespace WpfApp1.ViewModel
         }
         public void Edit()
         {
+            var dia = new RichTextEditorWindowView();
 
+            if (dia.ShowDialog() == true)
+            {
+                ((RichTextEditorViewModel)dia.RichText.DataContext).SetDefaultValue(World.Content);
+                World.Content =  (EntityPage) dia.RichText.Content;
+                World.Content.Update();
+                Page.Blocks.AddRange(World.Content.Build());
+            }
         }
 
         public void Add()

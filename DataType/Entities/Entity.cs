@@ -13,7 +13,10 @@ namespace WpfApp1.DataType.Entities
         public int Id { init; get; }
 
         public string ?Name { get; set; }
-        
-        public EntityPage? Content { get; set; }
+
+        public string? Description { get; set; }
+        public string? Icon { get; set; }
+
+        public EntityPage Content { get; set; } = new();
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WpfApp1.DataType.Contents;
 using WpfApp1.DataType.Entities.RealEntities;
 
 namespace WpfApp1.Database.Tables
@@ -21,7 +22,11 @@ namespace WpfApp1.Database.Tables
 
             cmd.Parameters.AddWithValue("$id", id);
 
-            return Format(cmd.ExecuteReader());
+            var reader = cmd.ExecuteReader();
+            if (!reader.Read())
+                return null;
+
+            return Format(reader);
         }
 
         public Nation Add(Nation item)
@@ -30,15 +35,18 @@ namespace WpfApp1.Database.Tables
 
             var cmd = conn.CreateCommand();
 
-            cmd.CommandText = "INSERT INTO nations (world_id, readable_id, name, description, icon, map, flag) VALUES ($world_id, $readable_id, $name, $description, $icon, $map, $flag)";
+            int pageId = new PageTable().Add(item.Content ?? new EntityPage()).Id; // Creating Page
+
+            cmd.CommandText = "INSERT INTO nations (world_id, readable_id, name, description, icon, map, flag, page_id) VALUES ($world_id, $readable_id, $name, $description, $icon, $map, $flag, $page_id)";
 
             cmd.Parameters.AddWithValue("$world_id", item.World);
-            cmd.Parameters.AddWithValue("$readable_id", item.ReadableId);
+            cmd.Parameters.AddWithValue("$readable_id", item.ReadableId ?? "");
             cmd.Parameters.AddWithValue("$name", item.Name);
-            cmd.Parameters.AddWithValue("$description", item.Description);
-            cmd.Parameters.AddWithValue("$icon", item.Icon);
-            cmd.Parameters.AddWithValue("$flag", item.Flag);
-            cmd.Parameters.AddWithValue("$map", item.Map);
+            cmd.Parameters.AddWithValue("$description", item.Description ?? "");
+            cmd.Parameters.AddWithValue("$icon", item.Icon ?? "");
+            cmd.Parameters.AddWithValue("$flag", item.Flag ?? "");
+            cmd.Parameters.AddWithValue("$map", item.Map ?? "");
+            cmd.Parameters.AddWithValue("$page_id", pageId);
 
             cmd.ExecuteNonQuery();
 
@@ -72,6 +80,8 @@ namespace WpfApp1.Database.Tables
             cmd.Parameters.AddWithValue("$flag", item.Flag);
             cmd.Parameters.AddWithValue("$id", item.Id);
 
+            item.Content.Update(); // Updating Page
+
             cmd.ExecuteNonQuery();
 
             return item;
@@ -84,6 +94,8 @@ namespace WpfApp1.Database.Tables
             var conn = _db.getConnection();
 
             var cmd = conn.CreateCommand();
+
+            new PageTable().Remove(Get(id).Content.Id); // Deleting Page
 
             cmd.CommandText = "DELETE FROM nations WHERE id = $id";
 
@@ -107,6 +119,7 @@ namespace WpfApp1.Database.Tables
                 Icon = reader.GetString(5),
                 Map = reader.GetString(6),
                 Flag = reader.GetString(7),
+                Content = new PageTable().Get(reader.GetInt32(8)) // Getting Page
             };
         }
     }

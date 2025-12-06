@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.TextFormatting;
 using WpfApp1.DataType.Database;
 using WpfApp1.DataType.Entities;
 
@@ -13,7 +15,7 @@ namespace WpfApp1.DataType
 
         private static Manager ?_instance;
 
-        private List<World> _worldList;
+        private List<World> _worldList; // TODO změnit na observable collection pro lepší manipulaci
 
         public Crawler Database = new Crawler();
 
@@ -23,8 +25,6 @@ namespace WpfApp1.DataType
 
         private Manager()
         {
-            _worldList = new List<World>();
-
             _worldList = Database.GetWorlds();
         }
 
@@ -40,7 +40,7 @@ namespace WpfApp1.DataType
 
         public void RemoveWorld(World world)
         {
-            _worldList.Remove(world);
+            _worldList.Remove(Database.World.Remove(world.Id));
             if (_selectedWorld == world)
                 _selectedWorld = null;
         }
@@ -55,9 +55,12 @@ namespace WpfApp1.DataType
             return _selectedWorld;
         }
 
-        public void AddWorld(World world)
+        public World AddWorld(World world)
         {
-            _worldList.Add(world);
+
+            World tmp = Database.World.Add(world);
+            _worldList.Add(tmp);
+            return tmp;
         }
         public void SelectWorld(int id)
         {

@@ -53,6 +53,7 @@ namespace WpfApp1.ViewModel
                 string description = dialog.Description.Text;
 
                 var newWorld = new World { Name = name, Description = description };
+                Worlds.Add(Manager.GetInstance().AddWorld(newWorld));
             }
         }
         private void Delete()

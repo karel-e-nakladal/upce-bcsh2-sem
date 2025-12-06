@@ -11,10 +11,6 @@ namespace WpfApp1.DataType.Entities
 {
     public class World : Entity
     {
-    
-
-        public string ?Description { set; get; }
-        public string ?Icon { set; get; }
         public string ?Map { set; get; }
 
         private Dictionary<EntityType, Dictionary<int, RealEntity>> ?Children;

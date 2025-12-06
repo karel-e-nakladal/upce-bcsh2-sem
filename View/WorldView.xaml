@@ -26,10 +26,11 @@
             <Button Content="Edit Page" Command="{Binding EditCommand}"/>
             <Button Content="Add Entity" Command="{Binding AddCommand}"/>
         </StackPanel>
-        <FlowDocumentScrollViewer Grid.Column="1">
-            <FlowDocument>
-                
-            </FlowDocument>
-        </FlowDocumentScrollViewer>
+        <FlowDocumentScrollViewer 
+            Grid.Column="1" 
+            VerticalScrollBarVisibility="Auto" 
+            Margin="10" 
+            x:Name="Editor" 
+            Document="{Binding Page, Mode=TwoWay}"/>
     </Grid>
 </Page>

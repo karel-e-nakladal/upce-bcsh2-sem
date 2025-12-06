@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp1.DataType.Entities.RealEntities;
+using WpfApp1.DataType.Contents;
 
 namespace WpfApp1.Database.Tables
 {
@@ -21,7 +22,11 @@ namespace WpfApp1.Database.Tables
 
             cmd.Parameters.AddWithValue("$id", id);
 
-            return Format(cmd.ExecuteReader());
+            var reader = cmd.ExecuteReader();
+            if (!reader.Read())
+                return null;
+
+            return Format(reader);
         }
 
         public Location Add(Location item)
@@ -30,7 +35,9 @@ namespace WpfApp1.Database.Tables
 
             var cmd = conn.CreateCommand();
 
-            cmd.CommandText = "INSERT INTO locations (world_id, readable_id, name, description, icon, map) VALUES ($world_id, $readable_id, $name, $description, $icon, $map)";
+            int pageId = new PageTable().Add(item.Content ?? new EntityPage()).Id; // Creating Page
+
+            cmd.CommandText = "INSERT INTO locations (world_id, readable_id, name, description, icon, map, page_id) VALUES ($world_id, $readable_id, $name, $description, $icon, $map, $page_id)";
 
             cmd.Parameters.AddWithValue("$world_id", item.World);
             cmd.Parameters.AddWithValue("$readable_id", item.ReadableId);
@@ -38,6 +45,7 @@ namespace WpfApp1.Database.Tables
             cmd.Parameters.AddWithValue("$description", item.Description);
             cmd.Parameters.AddWithValue("$icon", item.Icon);
             cmd.Parameters.AddWithValue("$map", item.Map);
+            cmd.Parameters.AddWithValue("$page_id", pageId);
 
             cmd.ExecuteNonQuery();
 
@@ -70,6 +78,8 @@ namespace WpfApp1.Database.Tables
             cmd.Parameters.AddWithValue("$map", item.Map);
             cmd.Parameters.AddWithValue("$id", item.Id);
 
+            item.Content.Update(); // Updating Page
+
             cmd.ExecuteNonQuery();
 
             return item;
@@ -82,6 +92,8 @@ namespace WpfApp1.Database.Tables
             var conn = _db.getConnection();
 
             var cmd = conn.CreateCommand();
+
+            new PageTable().Remove(Get(id).Content.Id); // Deleting Page
 
             cmd.CommandText = "DELETE FROM locations WHERE id = $id";
 
@@ -104,6 +116,7 @@ namespace WpfApp1.Database.Tables
                 Description = reader.GetString(4),
                 Icon = reader.GetString(5),
                 Map = reader.GetString(6),
+                Content = new PageTable().Get(reader.GetInt32(7)) // Getting Page
             };
         }
     }

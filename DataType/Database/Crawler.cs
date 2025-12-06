@@ -20,11 +20,13 @@ namespace WpfApp1.DataType.Database
 
         public LocationTable Location { init; get; }
         public NationTable Nation { init; get; }
+        public PageTable Page{ init; get; }
         public Crawler()
         {
             World = new WorldTable();
             Location = new LocationTable();
             Nation = new NationTable();
+            Page = new PageTable();
         }
 
         public List<World> GetWorlds()

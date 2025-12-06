@@ -25,7 +25,7 @@ namespace WpfApp1.ViewModel
         public IRelayCommand ImageCommand { get; }
         public IRelayCommand LinkCommand { get; }
 
-        public EntityPage content;
+        public EntityPage content { get; set; }
 
         public RichTextEditorViewModel()
         {
@@ -35,14 +35,11 @@ namespace WpfApp1.ViewModel
             ImageCommand = new RelayCommand(Image);
             LinkCommand = new RelayCommand(Link);
         }
-        public RichTextEditorViewModel(Entity e)
-        {
-            content = new EntityPage() { Owner = e};
-            HeaderCommand = new RelayCommand(Header);
-            ParagraphCommand = new RelayCommand(Paragraph);
-            ImageCommand = new RelayCommand(Image);
-            LinkCommand = new RelayCommand(Link);
 
+        public void SetDefaultValue(EntityPage newContent)
+        {
+            content = newContent;
+            Update();
         }
 
         private void Update()

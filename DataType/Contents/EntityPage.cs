@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,20 +19,7 @@ namespace WpfApp1.DataType.Contents
     {
         public int Id { init; get; }
 
-        public Entity Owner { init; get; }
-
         public List<PageBlock> Content { get; set; } = new();
-
-
-        //public //subcontent
-    
-        /*
-        -list of contents (paragraphs, images)
-        -update
-        -delete
-
-
-         */
 
         public List<Block> Build()
         {
@@ -78,6 +67,29 @@ namespace WpfApp1.DataType.Contents
                 }
             }
             return result;
+        }
+
+        public void Update()
+        {
+            Manager.GetInstance().Database.Page.Update(this);
+        }
+
+        public string JsonSerialize()
+        {
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+            };
+
+            return JsonSerializer.Serialize(Content, options);
+        }
+
+        public static List<PageBlock> JsonDeSerialize(string? json)
+        {
+            if (json is null)
+                return new List<PageBlock>();
+            return JsonSerializer.Deserialize<List<PageBlock>>(json) ?? new List<PageBlock>();
         }
     }
 }
