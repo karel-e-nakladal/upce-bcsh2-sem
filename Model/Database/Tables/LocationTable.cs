@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WpfApp1.DataType.Entities.RealEntities;
-using WpfApp1.DataType.Contents;
+using WpfApp1.Database;
+using WpfApp1.Model.DataType.Contents;
+using WpfApp1.Model.DataType.Entities.RealEntities;
 
-namespace WpfApp1.Database.Tables
+namespace WpfApp1.Model.Database.Tables
 {
     public class LocationTable
     {

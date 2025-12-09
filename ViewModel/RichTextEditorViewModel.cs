@@ -7,11 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using WpfApp1.DataType.Entities;
-using WpfApp1.DataType.Contents;
 using WpfApp1.View;
 using System.Reflection.Metadata;
 using System.Windows.Documents;
+using System.Windows.Input;
+using WpfApp1.DataType;
+using WpfApp1.Model.DataType.Contents;
 
 namespace WpfApp1.ViewModel
 {
@@ -19,13 +20,17 @@ namespace WpfApp1.ViewModel
     {
         [ObservableProperty]
         private FlowDocument document = new();
-
+        
+        [ObservableProperty]
+        private PageBlock selectedBlock;
+        
         public IRelayCommand HeaderCommand { get; }
         public IRelayCommand ParagraphCommand { get; }
         public IRelayCommand ImageCommand { get; }
         public IRelayCommand LinkCommand { get; }
 
-        public EntityPage content { get; set; }
+
+        private EntityPage content;
 
         public RichTextEditorViewModel()
         {
@@ -42,6 +47,11 @@ namespace WpfApp1.ViewModel
             Update();
         }
 
+        public EntityPage GetContnet()
+        {
+            return content;
+        }
+
         private void Update()
         {
             Document.Blocks.Clear();
@@ -52,7 +62,13 @@ namespace WpfApp1.ViewModel
         {
             var dia = new AddHeaderView();
 
-            if(dia.ShowDialog() == true)
+            var position = Mouse.GetPosition(Manager.GetInstance().MainWindow);
+            var point = Manager.GetInstance().MainWindow.PointToScreen(position);
+
+            dia.Left = point.X;
+            dia.Top = point.Y;
+
+            if (dia.ShowDialog() == true)
             {
                 content.Content.Add(new PageBlock()
                 {
@@ -66,6 +82,12 @@ namespace WpfApp1.ViewModel
         private void Paragraph()
         {
             var dia = new AddParagraphView();
+
+            var position = Mouse.GetPosition(Manager.GetInstance().MainWindow);
+            var point = Manager.GetInstance().MainWindow.PointToScreen(position);
+
+            dia.Left = point.X;
+            dia.Top = point.Y;
 
             if (dia.ShowDialog() == true)
             {
@@ -82,6 +104,12 @@ namespace WpfApp1.ViewModel
         {
             var dia = new AddImageView();
 
+            var position = Mouse.GetPosition(Manager.GetInstance().MainWindow);
+            var point = Manager.GetInstance().MainWindow.PointToScreen(position);
+
+            dia.Left = point.X;
+            dia.Top = point.Y;
+
             if (dia.ShowDialog() == true)
             {
                 content.Content.Add(new PageBlock()
@@ -97,6 +125,12 @@ namespace WpfApp1.ViewModel
         private void Link()
         {
             var dia = new AddLinkView();
+
+            var position = Mouse.GetPosition(Manager.GetInstance().MainWindow);
+            var point = Manager.GetInstance().MainWindow.PointToScreen(position);
+
+            dia.Left = point.X;
+            dia.Top = point.Y;
 
             if (dia.ShowDialog() == true)
             {

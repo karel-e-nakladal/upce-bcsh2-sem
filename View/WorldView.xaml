@@ -20,9 +20,11 @@
         <StackPanel Grid.Column="0">
             <Button Content="World Selection" Command="{Binding BackCommand}"/>
             <TextBlock Text="{Binding World.Name}" />
+            <!--
             <Image Source="{Binding World.Icon}"/>
             <TextBlock Text="{Binding World.Description}" />
             <TextBlock Text="{Binding World.Created}" />
+            -->
             <Button Content="Edit Page" Command="{Binding EditCommand}"/>
             <Button Content="Add Entity" Command="{Binding AddCommand}"/>
         </StackPanel>

@@ -5,12 +5,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Tracing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Navigation;
 using WpfApp1.DataType;
-using WpfApp1.DataType.Entities;
+using WpfApp1.Model.DataType.Entities;
 using WpfApp1.View;
 
 namespace WpfApp1.ViewModel
@@ -46,11 +48,18 @@ namespace WpfApp1.ViewModel
         }
         private void Add()
         {
-            var dialog = new AddWorldView();
-            if (dialog.ShowDialog() == true)
+            var dia = new AddWorldView();
+
+            var position = Mouse.GetPosition(Manager.GetInstance().MainWindow);
+            var point = Manager.GetInstance().MainWindow.PointToScreen(position);
+
+            dia.Left = point.X;
+            dia.Top = point.Y;
+
+            if (dia.ShowDialog() == true)
             {
-                string name = dialog.Name.Text;
-                string description = dialog.Description.Text;
+                string name = dia.Name.Text;
+                string description = dia.Description.Text;
 
                 var newWorld = new World { Name = name, Description = description };
                 Worlds.Add(Manager.GetInstance().AddWorld(newWorld));
@@ -68,14 +77,22 @@ namespace WpfApp1.ViewModel
         {
             if (SelectedWorld is null)
                 return;
-            var dialog = new AddWorldView();
-            dialog.Name.Text = SelectedWorld.Name;
-            dialog.Description.Text = SelectedWorld.Description;
 
-            if(dialog.ShowDialog() == true)
+            var dia = new AddWorldView();
+
+            dia.Name.Text = SelectedWorld.Name;
+            dia.Description.Text = SelectedWorld.Description;
+
+            var position = Mouse.GetPosition(Manager.GetInstance().MainWindow);
+            var point = Manager.GetInstance().MainWindow.PointToScreen(position);
+
+            dia.Left = point.X;
+            dia.Top = point.Y;
+
+            if (dia.ShowDialog() == true)
             {
-                SelectedWorld.Name = dialog.Name.Text;
-                SelectedWorld.Description = dialog.Description.Text;
+                SelectedWorld.Name = dia.Name.Text;
+                SelectedWorld.Description = dia.Description.Text;
                 SelectedWorld.Update();
             }
         }

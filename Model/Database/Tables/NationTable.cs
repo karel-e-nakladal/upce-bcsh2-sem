@@ -5,24 +5,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp1.Database;
-using WpfApp1.Database.Tables;
-using WpfApp1.DataType.Entities;
-using WpfApp1.DataType.Contents;
-using System.Windows.Controls;
+using WpfApp1.Model.DataType.Contents;
+using WpfApp1.Model.DataType.Entities.RealEntities;
 
-namespace WpfApp1.DataType.Database.Table
+namespace WpfApp1.Model.Database.Tables
 {
-    public class WorldTable
+    public class NationTable
     {
-
         private DB _db = DB.GetInstance();
-        public World Get(int id)
+        public Nation Get(int id)
         {
             var conn = _db.getConnection();
 
             var cmd = conn.CreateCommand();
 
-            cmd.CommandText = "SELECT * FROM worlds WHERE id = $id";
+            cmd.CommandText = "SELECT * FROM nations WHERE id = $id";
 
             cmd.Parameters.AddWithValue("$id", id);
 
@@ -33,7 +30,7 @@ namespace WpfApp1.DataType.Database.Table
             return Format(reader);
         }
 
-        public World Add(World item)
+        public Nation Add(Nation item)
         {
             var conn = _db.getConnection();
 
@@ -41,11 +38,14 @@ namespace WpfApp1.DataType.Database.Table
 
             int pageId = new PageTable().Add(item.Content ?? new EntityPage()).Id; // Creating Page
 
-            cmd.CommandText = "INSERT INTO worlds (name, description, icon, map, page_id) VALUES ($name, $description, $icon, $map, $page_id)";
+            cmd.CommandText = "INSERT INTO nations (world_id, readable_id, name, description, icon, map, flag, page_id) VALUES ($world_id, $readable_id, $name, $description, $icon, $map, $flag, $page_id)";
 
-            cmd.Parameters.AddWithValue("$name", item.Name ?? "");
+            cmd.Parameters.AddWithValue("$world_id", item.World);
+            cmd.Parameters.AddWithValue("$readable_id", item.ReadableId ?? "");
+            cmd.Parameters.AddWithValue("$name", item.Name);
             cmd.Parameters.AddWithValue("$description", item.Description ?? "");
             cmd.Parameters.AddWithValue("$icon", item.Icon ?? "");
+            cmd.Parameters.AddWithValue("$flag", item.Flag ?? "");
             cmd.Parameters.AddWithValue("$map", item.Map ?? "");
             cmd.Parameters.AddWithValue("$page_id", pageId);
 
@@ -53,7 +53,7 @@ namespace WpfApp1.DataType.Database.Table
 
             cmd = conn.CreateCommand();
 
-            cmd.CommandText = "SELECT * FROM worlds ORDER BY id DESC LIMIT 1";
+            cmd.CommandText = "SELECT * FROM locations ORDER BY id DESC LIMIT 1";
 
             var reader = cmd.ExecuteReader();
 
@@ -64,18 +64,21 @@ namespace WpfApp1.DataType.Database.Table
             return null;
         }
 
-        public World Update(World item)
+        public Nation Update(Nation item)
         {
             var conn = _db.getConnection();
 
             var cmd = conn.CreateCommand();
 
-            cmd.CommandText = "UPDATE worlds SET name = $name, description = $description, icon = $icon, map = $map WHERE id = $id";
+            cmd.CommandText = "UPDATE nation SET world_id = $world_id, readable_id = $readable_id, name = $name, description = $description, icon = $icon, map = $map, flag = $flag WHERE id = $id";
 
+            cmd.Parameters.AddWithValue("world_id", item.World);
+            cmd.Parameters.AddWithValue("$readanle_id", item.ReadableId);
             cmd.Parameters.AddWithValue("$name", item.Name);
             cmd.Parameters.AddWithValue("$description", item.Description);
             cmd.Parameters.AddWithValue("$icon", item.Icon);
             cmd.Parameters.AddWithValue("$map", item.Map);
+            cmd.Parameters.AddWithValue("$flag", item.Flag);
             cmd.Parameters.AddWithValue("$id", item.Id);
 
             item.Content.Update(); // Updating Page
@@ -85,9 +88,9 @@ namespace WpfApp1.DataType.Database.Table
             return item;
         }
 
-        public World Remove(int id)
+        public Nation Remove(int id)
         {
-            World removed = Get(id);
+            Nation removed = Get(id);
 
             var conn = _db.getConnection();
 
@@ -95,7 +98,7 @@ namespace WpfApp1.DataType.Database.Table
 
             new PageTable().Remove(Get(id).Content.Id); // Deleting Page
 
-            cmd.CommandText = "DELETE FROM worlds WHERE id = $id";
+            cmd.CommandText = "DELETE FROM nations WHERE id = $id";
 
             cmd.Parameters.AddWithValue("$id", id);
 
@@ -105,16 +108,19 @@ namespace WpfApp1.DataType.Database.Table
 
         }
 
-        public static World Format(SqliteDataReader reader)
+        public static Nation Format(SqliteDataReader reader)
         {
-            return new World
+            return new Nation
             {
                 Id = reader.GetInt32(0),
-                Name = reader.GetString(1),
-                Description = reader.GetString(2),
-                Icon = reader.GetString(3),
-                Map = reader.GetString(4),
-                Content = new PageTable().Get(reader.GetInt32(5)) // Getting Page
+                World = reader.GetInt32(1),
+                ReadableId = reader.GetString(2),
+                Name = reader.GetString(3),
+                Description = reader.GetString(4),
+                Icon = reader.GetString(5),
+                Map = reader.GetString(6),
+                Flag = reader.GetString(7),
+                Content = new PageTable().Get(reader.GetInt32(8)) // Getting Page
             };
         }
     }

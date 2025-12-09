@@ -5,8 +5,8 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.TextFormatting;
-using WpfApp1.DataType.Database;
-using WpfApp1.DataType.Entities;
+using WpfApp1.Model.DataType.Database;
+using WpfApp1.Model.DataType.Entities;
 
 namespace WpfApp1.DataType
 {

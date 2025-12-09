@@ -6,9 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Documents;
+using System.Windows.Input;
 using WpfApp1.DataType;
-using WpfApp1.DataType.Contents;
-using WpfApp1.DataType.Entities;
+using WpfApp1.Model.DataType.Entities;
+using WpfApp1.Model.DataType.Entities.RealEntities;
 using WpfApp1.View;
 
 namespace WpfApp1.ViewModel
@@ -28,6 +29,7 @@ namespace WpfApp1.ViewModel
         public WorldViewModel()
         {
             World = Manager.GetInstance().GetWorld();
+            Page.Blocks.AddRange(World.Content.Build());
 
             BackCommand = new RelayCommand(Back);
             EditCommand = new RelayCommand(Edit);
@@ -42,13 +44,19 @@ namespace WpfApp1.ViewModel
         }
         public void Edit()
         {
-            var dia = new RichTextEditorWindowView();
+            var dia = new RichTextEditorWindowView(World.Content);
+
+            var position = Mouse.GetPosition(Manager.GetInstance().MainWindow);
+            var point = Manager.GetInstance().MainWindow.PointToScreen(position);
+
+            dia.Left = point.X;
+            dia.Top = point.Y;
 
             if (dia.ShowDialog() == true)
             {
-                ((RichTextEditorViewModel)dia.RichText.DataContext).SetDefaultValue(World.Content);
-                World.Content =  (EntityPage) dia.RichText.Content;
+                World.Content = ((RichTextEditorViewModel)dia.RichText.DataContext).GetContnet();
                 World.Content.Update();
+                Page.Blocks.Clear();
                 Page.Blocks.AddRange(World.Content.Build());
             }
         }
@@ -57,9 +65,30 @@ namespace WpfApp1.ViewModel
         {
             var dia = new AddEntityView();
 
-            if(dia.ShowDialog() == true)
-            {
+            var position = Mouse.GetPosition(Manager.GetInstance().MainWindow);
+            var point = Manager.GetInstance().MainWindow.PointToScreen(position);
 
+            dia.Left = point.X;
+            dia.Top = point.Y;
+
+            if (dia.ShowDialog() == true)
+            {
+                switch (((AddEntityViewModel)dia.DataContext).SelectedType.TypeId)
+                {
+                    case EntityType.Location:
+                        var location = new Location()
+                        {
+                            Name = dia.Name.Text,
+                            Description = dia.Description.Text,
+                            Icon = dia.Icon.ToString(),
+                            Content = ((RichTextEditorViewModel)dia.RichText.DataContext).GetContnet(),
+                            ReadableId = dia.ReadableId.Text,
+                            World = Manager.GetInstance().GetWorld().Id
+                        };
+                        Manager.GetInstance().Database.Location.Add(location);
+                        Manager.GetInstance().GetWorld().Load();
+                        break;
+                }
             }
         }
 

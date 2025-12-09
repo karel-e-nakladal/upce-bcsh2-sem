@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WpfApp1.DataType.Entities.RealEntities;
+using WpfApp1.Model.DataType.Entities.RealEntities;
 
-namespace WpfApp1.DataType.Entities.Relations
+namespace WpfApp1.Model.DataType.Entities.Relations
 {
     public class Relation
     {

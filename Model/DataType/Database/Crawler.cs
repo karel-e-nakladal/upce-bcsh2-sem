@@ -5,12 +5,11 @@ using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp1.Database;
-using WpfApp1.Database.Tables;
-using WpfApp1.DataType.Database.Table;
-using WpfApp1.DataType.Entities;
-using WpfApp1.DataType.Entities.RealEntities;
+using WpfApp1.Model.Database.Tables;
+using WpfApp1.Model.DataType.Entities;
+using WpfApp1.Model.DataType.Entities.RealEntities;
 
-namespace WpfApp1.DataType.Database
+namespace WpfApp1.Model.DataType.Database
 {
     public class Crawler
     {

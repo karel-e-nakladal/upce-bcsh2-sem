@@ -12,7 +12,6 @@ using System.Windows.Shapes;
 using CommunityToolkit.Mvvm.ComponentModel;
 using SQLitePCL;
 using WpfApp1.Database;
-using WpfApp1.DataType.Database;
 using WpfApp1.View;
 
 namespace WpfApp1;

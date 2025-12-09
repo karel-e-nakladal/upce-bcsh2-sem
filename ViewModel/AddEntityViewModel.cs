@@ -6,12 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using WpfApp1.DataType.Entities;
+using WpfApp1.Model.DataType.Entities;
 
 namespace WpfApp1.ViewModel
 {
     public partial class AddEntityViewModel : ObservableObject 
     {
+        
         public RichTextEditorViewModel RichTextEditor { get; set; } = new();
 
         [ObservableProperty]

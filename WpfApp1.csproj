@@ -9,12 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DataType\Database\Table\" />
+    <Folder Include="Model\DataType\Database\Table\" />
     <Folder Include="Res\" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Database\DB.cs" />
+    <None Include="Model\Database\DB.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -5,10 +5,10 @@ using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
-using WpfApp1.DataType.Contents;
-using WpfApp1.DataType.Entities;
+using WpfApp1.Database;
+using WpfApp1.Model.DataType.Contents;
 
-namespace WpfApp1.Database.Tables
+namespace WpfApp1.Model.Database.Tables
 {
     public class PageTable
     {
@@ -64,6 +64,8 @@ namespace WpfApp1.Database.Tables
 
             cmd.CommandText = "UPDATE pages SET content = $content WHERE id = $id";
 
+
+            cmd.Parameters.AddWithValue("$id", item.Id);
             cmd.Parameters.AddWithValue("$content", item.JsonSerialize());
 
             cmd.ExecuteNonQuery();

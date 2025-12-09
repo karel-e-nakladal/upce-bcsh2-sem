@@ -16,7 +16,7 @@
             <TextBlock Text="Readable Id (Used in links)"/>
             <TextBox Width="100" HorizontalAlignment="Left" x:Name="ReadableId"/>
             <!-- Type -->
-            <ComboBox Width="100" HorizontalAlignment="Left" ItemsSource="{Binding TypeOptions}" SelectedItem="{Binding SelectedType}"/>
+            <ComboBox Width="100" x:Name="EntityType" HorizontalAlignment="Left" ItemsSource="{Binding TypeOptions}" SelectedItem="{Binding SelectedType}"/>
                 <!-- Icon -->
             <TextBlock Text="Icon"/>
             <Image Height="64" Width="64"/>
@@ -41,7 +41,7 @@
             <StackPanel Orientation="Horizontal">
                 <Button Content="Ok" Click="Ok" IsDefault="True"/>
                 <Button Content="Save" Command="{Binding SaveCommand}"/>
-                <Button Content="Cancel" Click="Cancel" IsCancel="True"/>
+                <Button Content="Cancel" IsCancel="True"/>
             </StackPanel>
         </StackPanel>
         </ScrollViewer>

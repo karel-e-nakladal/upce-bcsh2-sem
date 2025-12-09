@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfApp1.DataType.Entities.Relations
+namespace WpfApp1.Model.DataType.Entities.Relations
 {
     public enum RelationType
     {

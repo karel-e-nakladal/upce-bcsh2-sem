@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WpfApp1.DataType.Contents;
+using WpfApp1.Model.DataType.Contents;
 
-namespace WpfApp1.DataType.Entities
+namespace WpfApp1.Model.DataType.Entities
 {
     public abstract class Entity
     {
@@ -18,5 +18,7 @@ namespace WpfApp1.DataType.Entities
         public string? Icon { get; set; }
 
         public EntityPage Content { get; set; } = new();
+
+        public string? Created { init; get; }
     }
 }

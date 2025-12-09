@@ -25,7 +25,13 @@ namespace WpfApp1.Database
             pragma.CommandText = "PRAGMA foreign_keys = ON;";
             pragma.ExecuteNonQuery();
             
+            
+            
             //Clear(); // uncomment to clear all data from database
+            
+            
+            
+            
             Setup(); // creates necessary tables if they dont exist already 
         }
 

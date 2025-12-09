@@ -32,9 +32,5 @@ namespace WpfApp1.View
             Close();
         }
 
-        private void Cancel(Object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
     }
 }

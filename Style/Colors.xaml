@@ -23,6 +23,12 @@
         <Setter Property="Background" Value="{StaticResource Background}"/>
     </Style>
     
+    <Style TargetType="ComboBox">
+        <Setter Property="Foreground" Value="{StaticResource Text}"/>
+        <Setter Property="Background" Value="{StaticResource Background}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Border}"/>
+    </Style>
+    
     <Style TargetType="StackPanel">
         <Setter Property="Background" Value="{StaticResource Background}"/>
     </Style>

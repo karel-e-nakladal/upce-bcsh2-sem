@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp1.Database;
-using WpfApp1.DataType.Database.Table;
-using WpfApp1.DataType.Entities.RealEntities;
+using WpfApp1.DataType;
+using WpfApp1.Model.DataType.Entities.RealEntities;
 
-namespace WpfApp1.DataType.Entities
+namespace WpfApp1.Model.DataType.Entities
 {
     public class World : Entity
     {
@@ -55,7 +55,7 @@ namespace WpfApp1.DataType.Entities
         {
             if (Children is null)
                 return null;
-            return (RealEntity)Children[type][id];
+            return Children[type][id];
         }
     }
 }

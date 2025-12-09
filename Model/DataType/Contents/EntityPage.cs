@@ -9,11 +9,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media.Imaging;
-using WpfApp1.DataType.Entities;
+using WpfApp1.DataType;
 using WpfApp1.View;
 
 
-namespace WpfApp1.DataType.Contents
+namespace WpfApp1.Model.DataType.Contents
 {
     public class EntityPage
     {

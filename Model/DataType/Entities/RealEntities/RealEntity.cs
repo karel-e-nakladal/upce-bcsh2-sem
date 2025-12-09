@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WpfApp1.DataType.Entities.Relations;
+using WpfApp1.Model.DataType.Entities;
+using WpfApp1.Model.DataType.Entities.Relations;
 
-namespace WpfApp1.DataType.Entities.RealEntities
+namespace WpfApp1.Model.DataType.Entities.RealEntities
 {
     public class RealEntity : Entity
     {
