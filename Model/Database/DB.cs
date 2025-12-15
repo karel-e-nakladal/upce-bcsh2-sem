@@ -52,7 +52,7 @@ namespace WpfApp1.Database
 
         private void Clear()
         {
-            /* 
+            /*
             // UNCOMENT WHEN THERE ARE NO FOREIGN KEYS 
             var tableNames = new List<string>();
             using (var cmd = connection.CreateCommand())
@@ -68,6 +68,8 @@ namespace WpfApp1.Database
                 dropCmd.CommandText = $"DROP TABLE IF EXISTS {table};";
                 dropCmd.ExecuteNonQuery();
             }
+            */
+            /*
             */
             using var dropCmd = connection.CreateCommand();
             dropCmd.CommandText = $"DROP TABLE IF EXISTS worlds;";
@@ -150,7 +152,12 @@ namespace WpfApp1.Database
                 "name VARCHAR(100) NOT NULL," + // name
                 "description TEXT," + // description
                 "icon VARCHAR(100)," + // icon link
-                "map VARCHAR(150)," + // map link
+                "strength INTEGER NOT NULL," + // Strenght stat
+                "dexterity INTEGER NOT NULL," + // Dexterity stat
+                "constitution INTEGER NOT NULL," + // Constitution stat
+                "intelligence INTEGER NOT NULL," + // Inteligence stat
+                "wisdom INTEGER NOT NULL," + // Wisdom stat
+                "charisma INTEGER NOT NULL," + // Charisma stat
                 "page_id INTEGER NOT NULL," + // page
                 "FOREIGN KEY (page_id) REFERENCES pages(id) ON DELETE CASCADE," + // link to EntityPage
                 "FOREIGN KEY(world_id) REFERENCES worlds(id) ON DELETE CASCADE" + // link to map image
@@ -168,7 +175,6 @@ namespace WpfApp1.Database
                 "name VARCHAR(100) NOT NULL," + // name
                 "description TEXT," + // description
                 "icon VARCHAR(100)," + // icon link
-                "map VARCHAR(150)," + // map link
                 "page_id INTEGER NOT NULL," + // page
                 "FOREIGN KEY (page_id) REFERENCES pages(id) ON DELETE CASCADE," + // link to EntityPage
                 "FOREIGN KEY(world_id) REFERENCES worlds(id) ON DELETE CASCADE" + // link to map image

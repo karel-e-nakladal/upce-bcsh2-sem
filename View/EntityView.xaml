@@ -8,7 +8,33 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="EntityView">
 
+
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Column="0">
+            <Button Content="Back to World" Command="{Binding BackCommand}"/>
+            <TextBlock Text="{Binding SelectedEntity.Name}" />
+            <TextBlock Text="{Binding SelectedEntity.Description}" />
+            <!--
+            <Image Source="{Binding SelectedEntity.Icon}"/>
+            <TextBlock Text="{Binding SelectedEntity.Created}" />
+            -->
+            <Button Content="Edit Page" Command="{Binding EditCommand}"/>
+            <Button Content="Edit Entity" Command="{Binding EditEntityCommand}"/>
+            
+        </StackPanel>
+        <FlowDocumentScrollViewer 
+            Grid.Column="1" 
+            VerticalScrollBarVisibility="Auto" 
+            Margin="10" 
+            x:Name="Editor" 
+            Document="{Binding Page, Mode=TwoWay}"/>
     </Grid>
 </Page>

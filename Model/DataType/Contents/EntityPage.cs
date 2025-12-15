@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -8,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using WpfApp1.DataType;
 using WpfApp1.View;
@@ -21,9 +24,22 @@ namespace WpfApp1.Model.DataType.Contents
 
         public List<PageBlock> Content { get; set; } = new();
 
+
+        private void CheckEmpty()
+        {
+            for(int i = 0; i < Content.Count; i++)
+            {
+                if(Content[i] == null || Content[i].Text == null || Content[i].Text == "")
+                {
+                    Content.RemoveAt(i);
+                }
+            }
+
+        }
         public List<Block> Build()
         {
             var result = new List<Block>();
+            CheckEmpty();
             foreach (var item in Content)
             {
                 if (item is null)
@@ -67,6 +83,76 @@ namespace WpfApp1.Model.DataType.Contents
                 }
             }
             return result;
+        }
+
+        public List<Block> BuildEditable(Action<PageBlock, int> onEdit)
+        {
+            var result = new List<Block>();
+            CheckEmpty();
+            for (int i = 0; i < Content.Count; i++)
+            {
+                var item = Content[i];
+                if (item is null)
+                    continue;
+
+                UIElement element =  item.Type switch
+                {
+                    ContentType.Heading => new TextBlock
+                    {
+                        Text = item.Text,
+                        FontSize = 24,
+                        FontWeight = FontWeights.Bold
+                    },
+                    ContentType.Paragraph => new TextBlock
+                    {
+                        Text = item.Text,
+                        TextWrapping = TextWrapping.Wrap
+                    },
+                    ContentType.Link => new TextBlock
+                    {
+                        Text = item.Text,
+                        TextDecorations = TextDecorations.Underline,
+                        Foreground = Brushes.Blue,
+                        Cursor = Cursors.Hand
+                    },
+                    ContentType.Image => new Image
+                    {
+                        Source = new BitmapImage(new Uri(item.Url)),
+                        Width = 200
+                    },
+                    _ => null
+                };
+
+                if (element == null)
+                    continue;
+
+                var button = CreateInvisibleButton(element, item, i, onEdit);
+                result.Add(new Paragraph(new InlineUIContainer(button)));
+            }
+
+            return result;
+        }
+
+
+        private Button CreateInvisibleButton(
+            UIElement content,
+            PageBlock item,
+            int index,
+            Action<PageBlock, int> onEdit)
+        {
+            var button = new Button
+            {
+                Content = content,
+                Background = Brushes.Transparent,
+                BorderThickness = new Thickness(0),
+                Padding = new Thickness(0),
+                FocusVisualStyle = null,
+                HorizontalAlignment = HorizontalAlignment.Left
+            };
+
+            button.Click += (s, e) => onEdit?.Invoke(item, index);
+
+            return button;
         }
 
         public void Update()

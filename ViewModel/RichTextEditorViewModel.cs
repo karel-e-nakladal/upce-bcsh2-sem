@@ -4,15 +4,16 @@ using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
-using WpfApp1.View;
-using System.Reflection.Metadata;
 using System.Windows.Documents;
 using System.Windows.Input;
 using WpfApp1.DataType;
 using WpfApp1.Model.DataType.Contents;
+using WpfApp1.View;
 
 namespace WpfApp1.ViewModel
 {
@@ -35,10 +36,10 @@ namespace WpfApp1.ViewModel
         public RichTextEditorViewModel()
         {
             content = new();
-            HeaderCommand = new RelayCommand(Header);
-            ParagraphCommand = new RelayCommand(Paragraph);
-            ImageCommand = new RelayCommand(Image);
-            LinkCommand = new RelayCommand(Link);
+            HeaderCommand = new RelayCommand(HeaderC);
+            ParagraphCommand = new RelayCommand(ParagraphC);
+            ImageCommand = new RelayCommand(ImageC);
+            LinkCommand = new RelayCommand(LinkC);
         }
 
         public void SetDefaultValue(EntityPage newContent)
@@ -55,12 +56,38 @@ namespace WpfApp1.ViewModel
         private void Update()
         {
             Document.Blocks.Clear();
-            Document.Blocks.AddRange(content.Build());
+            Document.Blocks.AddRange(
+                content.BuildEditable(EditBlock)
+            );
         }
 
-        private void Header()
+        private void EditBlock(PageBlock block, int index)
         {
-            var dia = new AddHeaderView();
+            switch(block.Type)
+            {
+                case ContentType.Heading:
+                    Header(block, index);
+                    break;
+                case ContentType.Paragraph:
+                    Paragraph(block, index);
+                    break;
+                case ContentType.Image:
+                    Image(block, index);
+                    break;
+                case ContentType.Link:
+                    Link(block, index);
+                    break;
+            }
+        }
+
+
+        private void HeaderC()
+        {
+            Header();
+        }
+        private void Header(PageBlock? data = null, int? index = null)
+        {
+            var dia = new AddHeaderView(data);
 
             var position = Mouse.GetPosition(Manager.GetInstance().MainWindow);
             var point = Manager.GetInstance().MainWindow.PointToScreen(position);
@@ -70,18 +97,33 @@ namespace WpfApp1.ViewModel
 
             if (dia.ShowDialog() == true)
             {
-                content.Content.Add(new PageBlock()
+                if (index is not null && data is not null)
                 {
-                    Type = ContentType.Heading,
-                    Text = dia.Header.Text
-                });
+                    content.Content[(int)index] = new PageBlock()
+                    {
+                        Type = ContentType.Heading,
+                        Text = dia.Header.Text
+                    };
+                }
+                else
+                {
+                    content.Content.Add(new PageBlock()
+                    {
+                        Type = ContentType.Heading,
+                        Text = dia.Header.Text
+                    });
+                }
             }
             Update();
         }
 
-        private void Paragraph()
+        private void ParagraphC()
         {
-            var dia = new AddParagraphView();
+            Paragraph();
+        }
+        private void Paragraph(PageBlock? data = null, int? index = null)
+        {
+            var dia = new AddParagraphView(data);
 
             var position = Mouse.GetPosition(Manager.GetInstance().MainWindow);
             var point = Manager.GetInstance().MainWindow.PointToScreen(position);
@@ -91,18 +133,33 @@ namespace WpfApp1.ViewModel
 
             if (dia.ShowDialog() == true)
             {
-                content.Content.Add(new PageBlock()
+                if (index is not null && data is not null)
                 {
-                    Type = ContentType.Paragraph,
-                    Text = dia.Paragraph.Text
-                });
+                    content.Content[(int)index] = new PageBlock()
+                    {
+                        Type = ContentType.Paragraph,
+                        Text = dia.Paragraph.Text
+                    };
+                }
+                else
+                {
+                    content.Content.Add(new PageBlock()
+                    {
+                        Type = ContentType.Paragraph,
+                        Text = dia.Paragraph.Text
+                    });
+                }
             }
             Update();
         }
 
-        private void Image()
+        private void ImageC()
         {
-            var dia = new AddImageView();
+            Image();
+        }
+        private void Image(PageBlock? data = null, int? index = null)
+        {
+            var dia = new AddImageView(data);
 
             var position = Mouse.GetPosition(Manager.GetInstance().MainWindow);
             var point = Manager.GetInstance().MainWindow.PointToScreen(position);
@@ -112,19 +169,35 @@ namespace WpfApp1.ViewModel
 
             if (dia.ShowDialog() == true)
             {
-                content.Content.Add(new PageBlock()
+                if (index is not null && data is not null)
                 {
-                    Type = ContentType.Image,
-                    Text = dia.Name.Text,
-                    Path = dia.Name.Text,
-                });
+                    content.Content[(int)index] = new PageBlock()
+                    {
+                        Type = ContentType.Image,
+                        Text = dia.Name.Text,
+                        Path = dia.Name.Text,
+                    };
+                }
+                else
+                {
+                    content.Content.Add(new PageBlock()
+                    {
+                        Type = ContentType.Image,
+                        Text = dia.Name.Text,
+                        Path = dia.Name.Text,
+                    });
+                }
             }
             Update();
         }
 
-        private void Link()
+        private void LinkC()
         {
-            var dia = new AddLinkView();
+            Link();
+        }
+        private void Link(PageBlock? data = null, int? index = null)
+        {
+            var dia = new AddLinkView(data);
 
             var position = Mouse.GetPosition(Manager.GetInstance().MainWindow);
             var point = Manager.GetInstance().MainWindow.PointToScreen(position);
@@ -134,12 +207,24 @@ namespace WpfApp1.ViewModel
 
             if (dia.ShowDialog() == true)
             {
-                content.Content.Add(new PageBlock()
+                if (index is not null && data is not null)
                 {
-                    Type = ContentType.Link,
-                    Text = dia.Name.Text,
-                    Url = dia.ReadableId.Text
-                });
+                    content.Content[(int)index] = new PageBlock()
+                    {
+                        Type = ContentType.Link,
+                        Text = dia.Name.Text,
+                        Url = dia.ReadableId.Text
+                    };
+                }
+                else
+                {
+                    content.Content.Add(new PageBlock()
+                    {
+                        Type = ContentType.Link,
+                        Text = dia.Name.Text,
+                        Url = dia.ReadableId.Text
+                    });
+                }
             }
             Update();
         }

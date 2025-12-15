@@ -10,16 +10,16 @@ using WpfApp1.Model.DataType.Entities.RealEntities;
 
 namespace WpfApp1.Model.Database.Tables
 {
-    public class LocationTable
+    public class ItemTable
     {
         private DB _db = DB.GetInstance();
-        public Location Get(int id)
+        public Item Get(int id)
         {
             var conn = _db.getConnection();
 
             var cmd = conn.CreateCommand();
 
-            cmd.CommandText = "SELECT * FROM locations WHERE id = $id";
+            cmd.CommandText = "SELECT * FROM items WHERE id = $id";
 
             cmd.Parameters.AddWithValue("$id", id);
 
@@ -30,7 +30,7 @@ namespace WpfApp1.Model.Database.Tables
             return Format(reader);
         }
 
-        public Location Add(Location item)
+        public Item Add(Item item)
         {
             var conn = _db.getConnection();
 
@@ -38,21 +38,21 @@ namespace WpfApp1.Model.Database.Tables
 
             int pageId = new PageTable().Add(item.Content ?? new EntityPage()).Id; // Creating Page
 
-            cmd.CommandText = "INSERT INTO locations (world_id, readable_id, name, description, icon, map, page_id) VALUES ($world_id, $readable_id, $name, $description, $icon, $map, $page_id)";
+            cmd.CommandText = "INSERT INTO items (world_id, readable_id, name, description, icon, value, page_id) VALUES ($world_id, $readable_id, $name, $description, $icon, $value, $page_id)";
 
             cmd.Parameters.AddWithValue("$world_id", item.World);
             cmd.Parameters.AddWithValue("$readable_id", item.ReadableId ?? item.Name.ToLower().Replace(" ", "_"));
             cmd.Parameters.AddWithValue("$name", item.Name);
-            cmd.Parameters.AddWithValue("$description", item.Description);
+            cmd.Parameters.AddWithValue("$description", item.Description ?? "");
             cmd.Parameters.AddWithValue("$icon", item.Icon ?? "");
-            cmd.Parameters.AddWithValue("$map", item.Map ?? "");
+            cmd.Parameters.AddWithValue("$value", item.Value);
             cmd.Parameters.AddWithValue("$page_id", pageId);
 
             cmd.ExecuteNonQuery();
 
             cmd = conn.CreateCommand();
 
-            cmd.CommandText = "SELECT * FROM locations ORDER BY id DESC LIMIT 1";
+            cmd.CommandText = "SELECT * FROM items ORDER BY id DESC LIMIT 1";
 
             var reader = cmd.ExecuteReader();
 
@@ -63,20 +63,20 @@ namespace WpfApp1.Model.Database.Tables
             return null;
         }
 
-        public Location Update(Location item)
+        public Item Update(Item item)
         {
             var conn = _db.getConnection();
 
             var cmd = conn.CreateCommand();
 
-            cmd.CommandText = "UPDATE locations SET world_id = $world_id, readable_id = $readable_id, name = $name, description = $description, icon = $icon, map = $map WHERE id = $id";
+            cmd.CommandText = "UPDATE items SET world_id = $world_id, readable_id = $readable_id, name = $name, description = $description, icon = $icon, value = $value WHERE id = $id";
 
             cmd.Parameters.AddWithValue("world_id", item.World);
             cmd.Parameters.AddWithValue("$readanle_id", item.ReadableId ?? item.Name.ToLower().Replace(" ", "_"));
             cmd.Parameters.AddWithValue("$name", item.Name);
             cmd.Parameters.AddWithValue("$description", item.Description);
             cmd.Parameters.AddWithValue("$icon", item.Icon ?? "");
-            cmd.Parameters.AddWithValue("$map", item.Map ?? "");
+            cmd.Parameters.AddWithValue("$value", item.Value);
             cmd.Parameters.AddWithValue("$id", item.Id);
 
             item.Content.Update(); // Updating Page
@@ -86,9 +86,9 @@ namespace WpfApp1.Model.Database.Tables
             return item;
         }
 
-        public Location Remove(int id)
+        public Item Remove(int id)
         {
-            Location removed = Get(id);
+            Item removed = Get(id);
 
             var conn = _db.getConnection();
 
@@ -96,7 +96,7 @@ namespace WpfApp1.Model.Database.Tables
 
             new PageTable().Remove(Get(id).Content.Id); // Deleting Page
 
-            cmd.CommandText = "DELETE FROM locations WHERE id = $id";
+            cmd.CommandText = "DELETE FROM items WHERE id = $id";
 
             cmd.Parameters.AddWithValue("$id", id);
 
@@ -106,9 +106,9 @@ namespace WpfApp1.Model.Database.Tables
 
         }
 
-        public static Location Format(SqliteDataReader reader)
+        public static Item Format(SqliteDataReader reader)
         {
-            return new Location
+            return new Item
             {
                 Id = reader.GetInt32(0),
                 World = reader.GetInt32(1),
@@ -116,7 +116,7 @@ namespace WpfApp1.Model.Database.Tables
                 Name = reader.GetString(3),
                 Description = reader.GetString(4),
                 Icon = reader.GetString(5),
-                Map = reader.GetString(6),
+                Value = reader.GetInt32(6),
                 Content = new PageTable().Get(reader.GetInt32(7)) // Getting Page
             };
         }

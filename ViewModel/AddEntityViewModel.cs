@@ -17,11 +17,11 @@ namespace WpfApp1.ViewModel
 
         [ObservableProperty]
         public ObservableCollection<string> typeOptions = new(
-            Enum.GetNames(typeof(EntityType))
+            Enum.GetNames(typeof(EntityType)).Where(name => name != "World")
             );
 
         [ObservableProperty]
-        public ObservablePropertyAttribute selectedType;
+        public EntityType selectedType;
 
         public AddEntityViewModel()
         {

@@ -42,8 +42,8 @@ namespace WpfApp1.ViewModel
         {
             if (SelectedWorld is null)
                 return;
-            SelectedWorld.Load();
             Manager.GetInstance().SelectWorld(SelectedWorld);
+            Manager.GetInstance().GetWorld().Load();
             Manager.GetInstance().MainWindow.MainFrame.Navigate(new WorldView());
         }
         private void Add()

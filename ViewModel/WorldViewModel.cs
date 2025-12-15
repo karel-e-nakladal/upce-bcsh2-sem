@@ -22,9 +22,22 @@ namespace WpfApp1.ViewModel
         [ObservableProperty]
         private FlowDocument page = new();
 
+
+        private IEnumerable<KeyValuePair<EntityType, Dictionary<int, RealEntity>>> _childrenForBinding;
+        public IEnumerable<KeyValuePair<EntityType, Dictionary<int, RealEntity>>> ChildrenForBinding
+        {
+            get => _childrenForBinding;
+            set
+            {
+                _childrenForBinding = value;
+                OnPropertyChanged(nameof(ChildrenForBinding));
+            }
+        }
+
         public IRelayCommand BackCommand { get; }
         public IRelayCommand EditCommand { get; }
         public IRelayCommand AddCommand { get; }
+        public IRelayCommand OpenEntityCommand { get; }
 
         public WorldViewModel()
         {
@@ -34,9 +47,16 @@ namespace WpfApp1.ViewModel
             BackCommand = new RelayCommand(Back);
             EditCommand = new RelayCommand(Edit);
             AddCommand = new RelayCommand(Add);
+            OpenEntityCommand = new RelayCommand<int>(OpenEntity);
+            ChildrenForBinding = Manager.GetInstance().GetWorld().Children;
         }
 
 
+        public void OpenEntity(int id)
+        {
+            Manager.GetInstance().GetWorld().UnLoad();
+            Manager.GetInstance().MainWindow.MainFrame.Navigate(new EntityView(id));
+        }
         public void Back()
         {
             Manager.GetInstance().GetWorld().UnLoad();
@@ -73,23 +93,68 @@ namespace WpfApp1.ViewModel
 
             if (dia.ShowDialog() == true)
             {
-                switch (((AddEntityViewModel)dia.DataContext).SelectedType.TypeId)
+                var vm = ((AddEntityViewModel)dia.DataContext);
+                EntityType type = vm.SelectedType;
+                switch (type)
                 {
                     case EntityType.Location:
                         var location = new Location()
                         {
                             Name = dia.Name.Text,
                             Description = dia.Description.Text,
-                            Icon = dia.Icon.ToString(),
+                            //Icon = dia.Icon.ToString(),
                             Content = ((RichTextEditorViewModel)dia.RichText.DataContext).GetContnet(),
                             ReadableId = dia.ReadableId.Text,
                             World = Manager.GetInstance().GetWorld().Id
                         };
                         Manager.GetInstance().Database.Location.Add(location);
-                        Manager.GetInstance().GetWorld().Load();
+                        break;
+                    case EntityType.Nation:
+                        var nation = new Nation()
+                        {
+                            Name = dia.Name.Text,
+                            Description = dia.Description.Text,
+                            //Icon = dia.Icon.ToString(),
+                            Content = ((RichTextEditorViewModel)dia.RichText.DataContext).GetContnet(),
+                            ReadableId = dia.ReadableId.Text,
+                            World = Manager.GetInstance().GetWorld().Id
+                        };
+                        Manager.GetInstance().Database.Nation.Add(nation);
+                        break;
+                    case EntityType.Character:
+                        var character = new Character()
+                        {
+                            Name = dia.Name.Text,
+                            Description = dia.Description.Text,
+                            //Icon = dia.Icon.ToString(),
+                            Content = ((RichTextEditorViewModel)dia.RichText.DataContext).GetContnet(),
+                            ReadableId = dia.ReadableId.Text,
+                            World = Manager.GetInstance().GetWorld().Id
+                        };
+                        Manager.GetInstance().Database.Character.Add(character);
+                        break;
+                    case EntityType.Item:
+                        var item= new Item()
+                        {
+                            Name = dia.Name.Text,
+                            Description = dia.Description.Text,
+                            //Icon = dia.Icon.ToString(),
+                            Content = ((RichTextEditorViewModel)dia.RichText.DataContext).GetContnet(),
+                            ReadableId = dia.ReadableId.Text,
+                            World = Manager.GetInstance().GetWorld().Id
+                        };
+                        Manager.GetInstance().Database.Item.Add(item);
                         break;
                 }
+                Manager.GetInstance().GetWorld().Load();
+                ChildrenForBinding = Manager.GetInstance().GetWorld().Children;
             }
+        }
+
+        public void Remove()
+        {
+            Manager.GetInstance().GetWorld().Load();
+            ChildrenForBinding = Manager.GetInstance().GetWorld().Children;
         }
 
 

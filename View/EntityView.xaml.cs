@@ -21,15 +21,15 @@ namespace WpfApp1.View
     /// </summary>
     public partial class EntityView : Page
     {
-        public EntityView()
+        public EntityView(int id)
         {
             InitializeComponent();
-            DataContext = new EntityViewModel();
+            DataContext = new EntityViewModel(id);
         }
         public EntityView(string readableId)
         {
             InitializeComponent();
-            DataContext = new EntityViewModel();
+            DataContext = new EntityViewModel(readableId);
         }
     }
 }

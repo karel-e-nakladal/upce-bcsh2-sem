@@ -27,6 +27,30 @@
             -->
             <Button Content="Edit Page" Command="{Binding EditCommand}"/>
             <Button Content="Add Entity" Command="{Binding AddCommand}"/>
+            
+            <TreeView ItemsSource="{Binding ChildrenForBinding}" Height="auto">
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Value.Values}">
+                        <!-- Nadpis skupiny = EntityType -->
+                        <TextBlock Text="{Binding Key}" FontWeight="Bold"/>
+
+                        <HierarchicalDataTemplate.ItemTemplate>
+                            <DataTemplate>
+                                <!-- Název entity jako tlačítko -->
+                                <Button Content="{Binding Name}" 
+                                    Command="{Binding DataContext.OpenEntityCommand, RelativeSource={RelativeSource AncestorType=TreeView}}"
+                                    CommandParameter="{Binding Id}"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Padding="0"
+                                    HorizontalAlignment="Left"/>
+                            </DataTemplate>
+                        </HierarchicalDataTemplate.ItemTemplate>
+
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+            
         </StackPanel>
         <FlowDocumentScrollViewer 
             Grid.Column="1" 

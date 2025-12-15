@@ -20,12 +20,16 @@ namespace WpfApp1.Model.DataType.Database
         public LocationTable Location { init; get; }
         public NationTable Nation { init; get; }
         public PageTable Page{ init; get; }
+        public CharacterTable Character { init; get; }
+        public ItemTable Item { init; get; }
         public Crawler()
         {
-            World = new WorldTable();
-            Location = new LocationTable();
-            Nation = new NationTable();
-            Page = new PageTable();
+            World = new();
+            Location = new();
+            Nation = new();
+            Page = new();
+            Character = new();
+            Item = new();
         }
 
         public List<World> GetWorlds()
@@ -64,6 +68,48 @@ namespace WpfApp1.Model.DataType.Database
             while (reader.Read())
             {
                 result.Add(LocationTable.Format(reader));
+            }
+
+            return result;
+        }
+        public List<Character> GetCharactersByWorld(int id)
+        {
+            var conn = _db.getConnection();
+
+            var cmd = conn.CreateCommand();
+
+            cmd.CommandText = "SELECT * FROM characters WHERE world_id = $id";
+
+            cmd.Parameters.AddWithValue("$id", id);
+
+            var reader = cmd.ExecuteReader();
+
+            var result = new List<Character>();
+
+            while (reader.Read())
+            {
+                result.Add(CharacterTable.Format(reader));
+            }
+
+            return result;
+        }
+        public List<Item> GetItemsByWorld(int id)
+        {
+            var conn = _db.getConnection();
+
+            var cmd = conn.CreateCommand();
+
+            cmd.CommandText = "SELECT * FROM items WHERE world_id = $id";
+
+            cmd.Parameters.AddWithValue("$id", id);
+
+            var reader = cmd.ExecuteReader();
+
+            var result = new List<Item>();
+
+            while (reader.Read())
+            {
+                result.Add(ItemTable.Format(reader));
             }
 
             return result;

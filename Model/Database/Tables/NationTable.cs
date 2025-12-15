@@ -41,9 +41,9 @@ namespace WpfApp1.Model.Database.Tables
             cmd.CommandText = "INSERT INTO nations (world_id, readable_id, name, description, icon, map, flag, page_id) VALUES ($world_id, $readable_id, $name, $description, $icon, $map, $flag, $page_id)";
 
             cmd.Parameters.AddWithValue("$world_id", item.World);
-            cmd.Parameters.AddWithValue("$readable_id", item.ReadableId ?? "");
+            cmd.Parameters.AddWithValue("$readable_id", item.ReadableId ?? item.Name.ToLower().Replace(" ", "_"));
             cmd.Parameters.AddWithValue("$name", item.Name);
-            cmd.Parameters.AddWithValue("$description", item.Description ?? "");
+            cmd.Parameters.AddWithValue("$description", item.Description);
             cmd.Parameters.AddWithValue("$icon", item.Icon ?? "");
             cmd.Parameters.AddWithValue("$flag", item.Flag ?? "");
             cmd.Parameters.AddWithValue("$map", item.Map ?? "");
@@ -73,12 +73,12 @@ namespace WpfApp1.Model.Database.Tables
             cmd.CommandText = "UPDATE nation SET world_id = $world_id, readable_id = $readable_id, name = $name, description = $description, icon = $icon, map = $map, flag = $flag WHERE id = $id";
 
             cmd.Parameters.AddWithValue("world_id", item.World);
-            cmd.Parameters.AddWithValue("$readanle_id", item.ReadableId);
+            cmd.Parameters.AddWithValue("$readanle_id", item.ReadableId ?? item.Name.ToLower().Replace(" ", "_"));
             cmd.Parameters.AddWithValue("$name", item.Name);
             cmd.Parameters.AddWithValue("$description", item.Description);
-            cmd.Parameters.AddWithValue("$icon", item.Icon);
-            cmd.Parameters.AddWithValue("$map", item.Map);
-            cmd.Parameters.AddWithValue("$flag", item.Flag);
+            cmd.Parameters.AddWithValue("$icon", item.Icon ?? "");
+            cmd.Parameters.AddWithValue("$map", item.Map ?? "");
+            cmd.Parameters.AddWithValue("$flag", item.Flag ?? "");
             cmd.Parameters.AddWithValue("$id", item.Id);
 
             item.Content.Update(); // Updating Page
