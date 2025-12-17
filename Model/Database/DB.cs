@@ -53,6 +53,14 @@ namespace WpfApp1.Database
         private void Clear()
         {
             /*
+
+            */
+            
+            using var dropCmd1 = connection.CreateCommand();
+            dropCmd1.CommandText = $"DROP TABLE IF EXISTS worlds;";
+            dropCmd1.ExecuteNonQuery();
+            
+
             // UNCOMENT WHEN THERE ARE NO FOREIGN KEYS 
             var tableNames = new List<string>();
             using (var cmd = connection.CreateCommand())
@@ -68,12 +76,6 @@ namespace WpfApp1.Database
                 dropCmd.CommandText = $"DROP TABLE IF EXISTS {table};";
                 dropCmd.ExecuteNonQuery();
             }
-            */
-            /*
-            */
-            using var dropCmd = connection.CreateCommand();
-            dropCmd.CommandText = $"DROP TABLE IF EXISTS worlds;";
-            dropCmd.ExecuteNonQuery();
         }
         
         private void Setup()
@@ -135,6 +137,7 @@ namespace WpfApp1.Database
                 "description TEXT," + // description
                 "icon VARCHAR(100)," + // icon link
                 "map VARCHAR(150)," + // map link
+                "flag VARCHAR(50)," + // flag of nation
                 "page_id INTEGER NOT NULL," + // page
                 "FOREIGN KEY (page_id) REFERENCES pages(id) ON DELETE CASCADE," + // link to EntityPage
                 "FOREIGN KEY(world_id) REFERENCES worlds(id) ON DELETE CASCADE" + // link to map image
@@ -175,6 +178,7 @@ namespace WpfApp1.Database
                 "name VARCHAR(100) NOT NULL," + // name
                 "description TEXT," + // description
                 "icon VARCHAR(100)," + // icon link
+                "value INTEGER NOT NULL," +
                 "page_id INTEGER NOT NULL," + // page
                 "FOREIGN KEY (page_id) REFERENCES pages(id) ON DELETE CASCADE," + // link to EntityPage
                 "FOREIGN KEY(world_id) REFERENCES worlds(id) ON DELETE CASCADE" + // link to map image

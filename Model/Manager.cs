@@ -5,6 +5,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.TextFormatting;
+using WpfApp1.Model;
 using WpfApp1.Model.DataType.Database;
 using WpfApp1.Model.DataType.Entities;
 
@@ -17,11 +18,13 @@ namespace WpfApp1.DataType
 
         private List<World> _worldList; // TODO změnit na observable collection pro lepší manipulaci
 
-        public Crawler Database = new Crawler();
+        public Crawler Database = new();
 
         private World ?_selectedWorld;
 
         public MainWindow MainWindow = MainWindow.Instance;
+
+        public ImageManager ImageManager = new();
 
         private Manager()
         {

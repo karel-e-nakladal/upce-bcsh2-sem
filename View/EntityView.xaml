@@ -1,40 +1,123 @@
-﻿<Page x:Class="WpfApp1.View.EntityView"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+﻿<Page x:Class="WpfApp1.View.EntityView" 
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:WpfApp1.View"
+      xmlns:local="clr-namespace:WpfApp1.View" 
+      xmlns:entities="clr-namespace:WpfApp1.Model.DataType.Entities.RealEntities" 
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="450" 
+      d:DesignWidth="800" 
       Title="EntityView">
 
+    <Page.Resources>
+
+        <!-- Base -->
+        <DataTemplate DataType="{x:Type entities:RealEntity}">
+            <StackPanel>
+                <TextBlock Text="{Binding Name}" FontSize="18" FontWeight="Bold"/>
+                <TextBlock Text="{Binding ReadableId}" />
+                <TextBlock Text="{Binding Description}" />
+                <TextBlock Text="{Binding Created}" />
+            </StackPanel>
+        </DataTemplate>
+
+        <!-- CHARACTER -->
+        <DataTemplate DataType="{x:Type entities:Character}">
+            <StackPanel>
+                <TextBlock Text="Name:"/>
+                <TextBlock Text="{Binding Name}" FontSize="18" FontWeight="Bold"/>
+                <Image Width="64" Height="64" Source="{Binding IconBitmap}" Margin="0,0,16,0"/>
+                <TextBlock Text="Description:"/>
+                <TextBlock Text="{Binding Description}" />
+
+                <TextBlock Text="Strength"/>
+                <TextBlock Text="{Binding Strength}" />
+
+                <TextBlock Text="Dexterity"/>
+                <TextBlock Text="{Binding Dexterity}" />
+
+                <TextBlock Text="Constitution"/>
+                <TextBlock Text="{Binding Constitution}" />
+
+                <TextBlock Text="Intelligence"/>
+                <TextBlock Text="{Binding Intelligence}" />
+
+                <TextBlock Text="Wisdom"/>
+                <TextBlock Text="{Binding Wisdom}" />
+
+                <TextBlock Text="Charisma"/>
+                <TextBlock Text="{Binding Charisma}" />
+            </StackPanel>
+        </DataTemplate>
+
+        <!-- ITEM -->
+        <DataTemplate DataType="{x:Type entities:Item}">
+            <StackPanel>
+                <TextBlock Text="Name:"/>
+                <TextBlock Text="{Binding Name}" FontSize="18" FontWeight="Bold"/>
+                <Image Width="64" Height="64" Source="{Binding IconBitmap}" Margin="0,0,16,0"/>
+                <TextBlock Text="Description:"/>
+                <TextBlock Text="{Binding Description}" />
+
+                <TextBlock Text="Value"/>
+                <TextBlock Text="{Binding Value}" />
+            </StackPanel>
+        </DataTemplate>
+
+        <!-- Location -->
+        <DataTemplate DataType="{x:Type entities:Location}">
+            <StackPanel>
+                <TextBlock Text="Name:"/>
+                <TextBlock Text="{Binding Name}" FontSize="18" FontWeight="Bold"/>
+                <Image Width="64" Height="64" Source="{Binding IconBitmap}" Margin="0,0,16,0"/>
+                <TextBlock Text="Description:"/>
+                <TextBlock Text="{Binding Description}" />
+
+                <TextBlock Text="Map"/>
+                <TextBlock Text="{Binding Map}" />
+            </StackPanel>
+        </DataTemplate>
+
+        <!-- Nation -->
+        <DataTemplate DataType="{x:Type entities:Nation}">
+            <StackPanel>
+                <TextBlock Text="Name:"/>
+                <TextBlock Text="{Binding Name}" FontSize="18" FontWeight="Bold"/>
+                <Image Width="64" Height="64" Source="{Binding IconBitmap}" Margin="0,0,16,0"/>
+                <TextBlock Text="Description:"/>
+                <TextBlock Text="{Binding Description}" />
+
+                <TextBlock Text="Flag"/>
+                <TextBlock Text="{Binding Flag}" />
+
+                <TextBlock Text="Map"/>
+                <TextBlock Text="{Binding Map}" />
+            </StackPanel>
+        </DataTemplate>
+
+    </Page.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
 
-        <StackPanel Grid.Column="0">
+        <StackPanel Grid.Column="0" Margin="10">
+
             <Button Content="Back to World" Command="{Binding BackCommand}"/>
-            <TextBlock Text="{Binding SelectedEntity.Name}" />
-            <TextBlock Text="{Binding SelectedEntity.Description}" />
-            <!--
-            <Image Source="{Binding SelectedEntity.Icon}"/>
-            <TextBlock Text="{Binding SelectedEntity.Created}" />
-            -->
-            <Button Content="Edit Page" Command="{Binding EditCommand}"/>
+            <ContentControl Content="{Binding SelectedEntity}" />
+
+            <Separator Margin="0,10"/>
+            <Button Content="Edit Page" Command="{Binding EditCommand}" Margin="0,5,0,0" Padding="6"/>
             <Button Content="Edit Entity" Command="{Binding EditEntityCommand}"/>
-            
         </StackPanel>
+
         <FlowDocumentScrollViewer 
-            Grid.Column="1" 
-            VerticalScrollBarVisibility="Auto" 
-            Margin="10" 
-            x:Name="Editor" 
-            Document="{Binding Page, Mode=TwoWay}"/>
+            Grid.Column="1"
+            Margin="10"
+            VerticalScrollBarVisibility="Auto"
+            Document="{Binding Page}" />
     </Grid>
 </Page>

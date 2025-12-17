@@ -13,6 +13,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using WpfApp1.DataType;
 using WpfApp1.Model.DataType.Contents;
+using WpfApp1.Model.DataType.Entities;
 using WpfApp1.View;
 
 namespace WpfApp1.ViewModel
@@ -33,18 +34,22 @@ namespace WpfApp1.ViewModel
 
         private EntityPage content;
 
-        public RichTextEditorViewModel()
+        private Entity? entity;
+
+        public RichTextEditorViewModel(Entity? editedEntity = null)
         {
             content = new();
+            entity = editedEntity;
             HeaderCommand = new RelayCommand(HeaderC);
             ParagraphCommand = new RelayCommand(ParagraphC);
             ImageCommand = new RelayCommand(ImageC);
             LinkCommand = new RelayCommand(LinkC);
         }
 
-        public void SetDefaultValue(EntityPage newContent)
+        public void SetOwner(Entity owner)
         {
-            content = newContent;
+            content = owner.Content;
+            entity = owner;
             Update();
         }
 
@@ -159,7 +164,8 @@ namespace WpfApp1.ViewModel
         }
         private void Image(PageBlock? data = null, int? index = null)
         {
-            var dia = new AddImageView(data);
+            if (entity is null) return;
+            var dia = new AddImageView(entity, data);
 
             var position = Mouse.GetPosition(Manager.GetInstance().MainWindow);
             var point = Manager.GetInstance().MainWindow.PointToScreen(position);
@@ -169,13 +175,14 @@ namespace WpfApp1.ViewModel
 
             if (dia.ShowDialog() == true)
             {
+                var vm = (AddImageViewModel)dia.DataContext;
                 if (index is not null && data is not null)
                 {
                     content.Content[(int)index] = new PageBlock()
                     {
                         Type = ContentType.Image,
-                        Text = dia.Name.Text,
-                        Path = dia.Name.Text,
+                        Text = vm.Name,
+                        Path = vm.Path,
                     };
                 }
                 else
@@ -183,12 +190,12 @@ namespace WpfApp1.ViewModel
                     content.Content.Add(new PageBlock()
                     {
                         Type = ContentType.Image,
-                        Text = dia.Name.Text,
-                        Path = dia.Name.Text,
+                        Text = vm.Name,
+                        Path = vm.Path,
                     });
                 }
+                Update();
             }
-            Update();
         }
 
         private void LinkC()

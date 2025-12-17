@@ -11,6 +11,7 @@
   <ItemGroup>
     <Folder Include="Model\DataType\Database\Table\" />
     <Folder Include="Res\" />
+    <Folder Include="Res\1\Character-4\" />
   </ItemGroup>
 
   <ItemGroup>

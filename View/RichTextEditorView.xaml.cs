@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp1.Model.DataType.Entities;
 using WpfApp1.ViewModel;
 
 namespace WpfApp1.View

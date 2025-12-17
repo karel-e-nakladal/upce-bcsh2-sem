@@ -74,8 +74,8 @@ namespace WpfApp1.Model.DataType.Contents
                     case ContentType.Image:
                         var image = new Image()
                         {
-                            Source = new BitmapImage(new Uri(item.Url)),
-                            Width = 200
+                            Source = Manager.GetInstance().ImageManager.LoadBitmap(item.Path),
+                            Width = 300
                         };
                         result.Add(new Paragraph(new InlineUIContainer(image)));
                         break;
@@ -117,8 +117,8 @@ namespace WpfApp1.Model.DataType.Contents
                     },
                     ContentType.Image => new Image
                     {
-                        Source = new BitmapImage(new Uri(item.Url)),
-                        Width = 200
+                        Source = Manager.GetInstance().ImageManager.LoadBitmap(item.Path),
+                        Width = 300
                     },
                     _ => null
                 };

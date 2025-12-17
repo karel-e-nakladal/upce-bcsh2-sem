@@ -3,20 +3,18 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApp1.View"
         mc:Ignorable="d"
         Title="Paragraph" Height="260" Width="200">
-    <Grid >
+    <Grid>
         <StackPanel Margin="10">
-            <TextBlock Text="Paragraph"/>
-            <ScrollViewer>
-                <TextBox Height="150" x:Name="Paragraph"/>
+            <TextBlock Text="Paragraph" Margin="0,0,0,5"/>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Height="150">
+                <TextBox x:Name="Paragraph" AcceptsReturn="True" TextWrapping="Wrap"/>
             </ScrollViewer>
-            <StackPanel Margin="10" Orientation="Horizontal">
-                <Button Content="Ok" Click="Ok" IsDefault="True"/>
-                <Button Content="Cancel" IsCancel="True"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+                <Button Content="Ok" Click="Ok" IsDefault="True" Margin="5" Padding="6"/>
+                <Button Content="Cancel" IsCancel="True" Margin="5" Padding="6"/>
             </StackPanel>
-
         </StackPanel>
     </Grid>
 </Window>

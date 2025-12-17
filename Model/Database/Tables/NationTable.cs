@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp1.Database;
+using WpfApp1.DataType;
 using WpfApp1.Model.DataType.Contents;
 using WpfApp1.Model.DataType.Entities.RealEntities;
 
@@ -43,10 +44,10 @@ namespace WpfApp1.Model.Database.Tables
             cmd.Parameters.AddWithValue("$world_id", item.World);
             cmd.Parameters.AddWithValue("$readable_id", item.ReadableId ?? item.Name.ToLower().Replace(" ", "_"));
             cmd.Parameters.AddWithValue("$name", item.Name);
-            cmd.Parameters.AddWithValue("$description", item.Description);
-            cmd.Parameters.AddWithValue("$icon", item.Icon ?? "");
-            cmd.Parameters.AddWithValue("$flag", item.Flag ?? "");
-            cmd.Parameters.AddWithValue("$map", item.Map ?? "");
+            cmd.Parameters.AddWithValue("$description", item.Description ?? "");
+            cmd.Parameters.AddWithValue("$icon", item.Icon ?? Manager.GetInstance().ImageManager.GetDefaultImage());
+            cmd.Parameters.AddWithValue("$flag", item.Flag ?? Manager.GetInstance().ImageManager.GetDefaultImage());
+            cmd.Parameters.AddWithValue("$map", item.Map ?? Manager.GetInstance().ImageManager.GetDefaultImage());
             cmd.Parameters.AddWithValue("$page_id", pageId);
 
             cmd.ExecuteNonQuery();
@@ -91,6 +92,9 @@ namespace WpfApp1.Model.Database.Tables
         public Nation Remove(int id)
         {
             Nation removed = Get(id);
+
+            Manager.GetInstance().ImageManager.DeleteEntity(removed.Type, removed.World, removed.Id);
+
 
             var conn = _db.getConnection();
 

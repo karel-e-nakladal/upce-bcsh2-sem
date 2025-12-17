@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WpfApp1.Model.DataType.Entities;
+using WpfApp1.ViewModel;
 
 namespace WpfApp1.View
 {
@@ -19,9 +21,10 @@ namespace WpfApp1.View
     /// </summary>
     public partial class AddWorldView : Window
     {
-        public AddWorldView()
+        public AddWorldView(World?  data = null)
         {
             InitializeComponent();
+            DataContext = new AddWorldViewModel(data);
         }
         
         private void Ok(object sender, RoutedEventArgs e)

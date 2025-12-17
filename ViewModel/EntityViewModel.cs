@@ -25,27 +25,26 @@ namespace WpfApp1.ViewModel
 
         public IRelayCommand BackCommand { get;}
         public IRelayCommand EditEntityCommand { get;}
-        public IRelayCommand EditCommand { get;}
+        public RelayCommand EditCommand { get; }
 
-        public EntityViewModel(int id) {
-            selectedEntity = Manager.GetInstance().GetWorld().GetChildById(id);
+        public EntityViewModel(RealEntity entity) {
+            selectedEntity = entity;
             BackCommand = new RelayCommand(Back);
-            EditEntityCommand = new RelayCommand(EditEntity);
             EditCommand = new RelayCommand(Edit);
+            EditEntityCommand = new RelayCommand(EditEntity);
             initialize();
         }
         public EntityViewModel(string readableId) {
             selectedEntity = Manager.GetInstance().GetWorld().GetChildByReadableId(readableId);
             BackCommand = new RelayCommand(Back);
-            EditEntityCommand = new RelayCommand(EditEntity);
             EditCommand = new RelayCommand(Edit);
-
+            EditEntityCommand = new RelayCommand(EditEntity);
             initialize();
         }
 
         private void initialize()
         {
-            if (SelectedEntity == null)
+            if (SelectedEntity is null || SelectedEntity == null)
                 Back();
             Page.Blocks.AddRange(SelectedEntity.Content.Build());
         }
@@ -53,28 +52,58 @@ namespace WpfApp1.ViewModel
 
         private void Back()
         {
+            Manager.GetInstance().GetWorld().Load();
             Manager.GetInstance().MainWindow.MainFrame.Navigate(new WorldView());
         }
 
         public void EditEntity()
         {
-            switch (SelectedEntity.Type)
-            {
-                case EntityType.Location:
-                    break;
-                case EntityType.Nation:
-                    break;
-                case EntityType.Character:
-                    break;
-                case EntityType.Item:
-                    break;
+            var dia = new AddEntityView(selectedEntity);
 
+            var position = Mouse.GetPosition(Manager.GetInstance().MainWindow);
+            var point = Manager.GetInstance().MainWindow.PointToScreen(position);
+            
+            dia.Left = point.X;
+            dia.Top = point.Y;
+
+            if (dia.ShowDialog() == true)
+            {
+                var vm = (AddEntityViewModel)dia.DataContext;
+                selectedEntity.Name = vm.Name;
+                selectedEntity.ReadableId = vm.ReadableId;
+                selectedEntity.Description = vm.Description;
+                selectedEntity.Icon = vm.IconPath;
+
+                switch (SelectedEntity.Type)
+                {
+                    case EntityType.Location:
+                        
+                        break;
+                    case EntityType.Nation:
+
+                        break;
+                    case EntityType.Character:
+
+                        ((Character)selectedEntity).Strength = (int)vm.Strength;
+                        ((Character)selectedEntity).Dexterity = (int)vm.Dexterity;
+                        ((Character)selectedEntity).Constitution = (int)vm.Constitution;
+                        ((Character)selectedEntity).Intelligence = (int)vm.Intelligence;
+                        ((Character)selectedEntity).Wisdom = (int)vm.Wisdom;
+                        ((Character)selectedEntity).Charisma = (int)vm.Charisma;
+                        break;
+                    case EntityType.Item:
+                        ((Item)selectedEntity).Value = (int)vm.Value;
+                        break;
+
+                }
+                selectedEntity.Update();
+                Manager.GetInstance().MainWindow.MainFrame.Navigate(new EntityView(selectedEntity));
             }
         }
 
         public void Edit()
         {
-            var dia = new RichTextEditorWindowView(selectedEntity.Content);
+            var dia = new RichTextEditorWindowView(selectedEntity);
 
             var position = Mouse.GetPosition(Manager.GetInstance().MainWindow);
             var point = Manager.GetInstance().MainWindow.PointToScreen(position);

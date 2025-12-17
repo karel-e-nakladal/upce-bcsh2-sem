@@ -47,15 +47,15 @@ namespace WpfApp1.ViewModel
             BackCommand = new RelayCommand(Back);
             EditCommand = new RelayCommand(Edit);
             AddCommand = new RelayCommand(Add);
-            OpenEntityCommand = new RelayCommand<int>(OpenEntity);
+            OpenEntityCommand = new RelayCommand<RealEntity>(OpenEntity);
             ChildrenForBinding = Manager.GetInstance().GetWorld().Children;
         }
 
 
-        public void OpenEntity(int id)
+        public void OpenEntity(RealEntity entity)
         {
-            Manager.GetInstance().GetWorld().UnLoad();
-            Manager.GetInstance().MainWindow.MainFrame.Navigate(new EntityView(id));
+            Manager.GetInstance().GetWorld().Load();
+            Manager.GetInstance().MainWindow.MainFrame.Navigate(new EntityView(entity));
         }
         public void Back()
         {
@@ -64,7 +64,7 @@ namespace WpfApp1.ViewModel
         }
         public void Edit()
         {
-            var dia = new RichTextEditorWindowView(World.Content);
+            var dia = new RichTextEditorWindowView(World);
 
             var position = Mouse.GetPosition(Manager.GetInstance().MainWindow);
             var point = Manager.GetInstance().MainWindow.PointToScreen(position);
@@ -100,11 +100,10 @@ namespace WpfApp1.ViewModel
                     case EntityType.Location:
                         var location = new Location()
                         {
-                            Name = dia.Name.Text,
-                            Description = dia.Description.Text,
+                            Name = vm.Name,
+                            Description = vm.Description,
                             //Icon = dia.Icon.ToString(),
-                            Content = ((RichTextEditorViewModel)dia.RichText.DataContext).GetContnet(),
-                            ReadableId = dia.ReadableId.Text,
+                            ReadableId = vm.ReadableId,
                             World = Manager.GetInstance().GetWorld().Id
                         };
                         Manager.GetInstance().Database.Location.Add(location);
@@ -112,11 +111,10 @@ namespace WpfApp1.ViewModel
                     case EntityType.Nation:
                         var nation = new Nation()
                         {
-                            Name = dia.Name.Text,
-                            Description = dia.Description.Text,
+                            Name = vm.Name,
+                            Description = vm.Description,
                             //Icon = dia.Icon.ToString(),
-                            Content = ((RichTextEditorViewModel)dia.RichText.DataContext).GetContnet(),
-                            ReadableId = dia.ReadableId.Text,
+                            ReadableId = vm.ReadableId,
                             World = Manager.GetInstance().GetWorld().Id
                         };
                         Manager.GetInstance().Database.Nation.Add(nation);
@@ -124,24 +122,29 @@ namespace WpfApp1.ViewModel
                     case EntityType.Character:
                         var character = new Character()
                         {
-                            Name = dia.Name.Text,
-                            Description = dia.Description.Text,
+                            Name = vm.Name,
+                            Description = vm.Description,
                             //Icon = dia.Icon.ToString(),
-                            Content = ((RichTextEditorViewModel)dia.RichText.DataContext).GetContnet(),
-                            ReadableId = dia.ReadableId.Text,
-                            World = Manager.GetInstance().GetWorld().Id
+                            ReadableId = vm.ReadableId,
+                            World = Manager.GetInstance().GetWorld().Id,
+                            Strength = vm.Strength ?? 0,
+                            Dexterity = vm.Dexterity ?? 0,
+                            Constitution = vm.Constitution ?? 0,
+                            Intelligence = vm.Intelligence ?? 0,
+                            Wisdom = vm.Wisdom ?? 0,
+                            Charisma = vm.Charisma ?? 0
                         };
                         Manager.GetInstance().Database.Character.Add(character);
                         break;
                     case EntityType.Item:
                         var item= new Item()
                         {
-                            Name = dia.Name.Text,
-                            Description = dia.Description.Text,
+                            Name = vm.Name,
+                            Description = vm.Description,
                             //Icon = dia.Icon.ToString(),
-                            Content = ((RichTextEditorViewModel)dia.RichText.DataContext).GetContnet(),
-                            ReadableId = dia.ReadableId.Text,
-                            World = Manager.GetInstance().GetWorld().Id
+                            ReadableId = vm.ReadableId,
+                            World = Manager.GetInstance().GetWorld().Id,
+                            Value = vm.Value ?? 0
                         };
                         Manager.GetInstance().Database.Item.Add(item);
                         break;

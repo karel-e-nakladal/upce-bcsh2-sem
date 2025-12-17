@@ -8,45 +8,73 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="WorldList">
 
-    <Grid>
-        <Grid.ColumnDefinitions >
+    <Grid Margin="16">
+        <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        
-        <StackPanel Grid.Column="0">
-            <TextBlock Text="Selected World" FontWeight="Bold"/>
-            <TextBlock Text="{Binding SelectedWorld.Name}" Margin=" 0, 5, 0, 0"/>
-            <TextBlock Text="{Binding SelectedWorld.Created}" Margin="0, 5, 0, 0"/>
-            <TextBlock Text="{Binding SelectedWorld.Description}" Margin="0, 5, 0, 0"/>
-            <Button Content="Select World" Command="{Binding SelectCommand}" Margin="0, 5, 0, 0"/>
-            <Button Content="Edit World" Command="{Binding EditCommand}" Margin="0, 5, 0, 0"/>
-            <Button Content="Delete World" Command="{Binding DeleteCommand}"  Margin="0, 10, 0, 0"/>
-            <Button Content="Add World" Command="{Binding AddCommand}" Margin="0, 30, 0, 0"/>
 
+        <!-- LEFT PANEL: Selected World Info & Actions -->
+        <StackPanel Grid.Column="0" Margin="0,0,16,0">
+            <TextBlock Text="Selected World" FontWeight="Bold" FontSize="18"/>
+            <TextBlock Text="{Binding SelectedWorld.Name}" Margin="0,5,0,0"/>
+            <Image Source="{Binding SelectedWorld.IconBitmap}" Width="64" Height="64"/>
+            <TextBlock Text="{Binding SelectedWorld.Description}" Margin="0,5,0,0" TextWrapping="Wrap"/>
+
+            <Button Content="Select World" Command="{Binding SelectCommand}" Margin="0,10,0,0" Padding="6"/>
+            <Button Content="Edit World" Command="{Binding EditCommand}" Margin="0,5,0,0" Padding="6"/>
+            <Button Content="Delete World" Command="{Binding DeleteCommand}" Margin="0,5,0,0" Padding="6"/>
+            <Button Content="Add World" Command="{Binding AddCommand}" Margin="0,20,0,0" Padding="6"/>
         </StackPanel>
 
+        <!-- RIGHT PANEL: World List -->
         <ListBox Grid.Column="1" ItemsSource="{Binding Worlds}"
                  SelectedItem="{Binding SelectedWorld, Mode=TwoWay}"
-                 HorizontalAlignment="Stretch">
+                 HorizontalAlignment="Stretch"
+                 BorderThickness="0">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel/>
+                    <WrapPanel IsItemsHost="True"/>
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
 
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Border >
+                    <Border Margin="8" Padding="8" CornerRadius="6">
                         <StackPanel>
-                            <Image Source="{Binding Icon}" Width="64" Height="64"/>
-                            <TextBlock Text="{Binding Name}" HorizontalAlignment="Center"/>
+                            <Image Source="{Binding IconBitmap}" Width="64" Height="64"/>
+                            <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" Margin="0,6,0,0"/>
                         </StackPanel>
                     </Border>
                 </DataTemplate>
             </ListBox.ItemTemplate>
-            
-        </ListBox>
 
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Margin" Value="4"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <Border x:Name="Bd" CornerRadius="6">
+                                    <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="Bd" Property="Opacity" Value="0.7"/>
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Bd" Property="Opacity" Value="0.5"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+
+        </ListBox>
     </Grid>
 </Page>

@@ -5,24 +5,107 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.View"
         mc:Ignorable="d"
-        Title="AddWorldView" Height="160" Width="300">
+        Title="AddWorldView" Height="400" Width="300">
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Row="0" Grid.Column="0" Text="Name your world"/>
-        <TextBox Grid.Row="1" Grid.Column="0" x:Name="Name"/>
-        <TextBox TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Height="70" Grid.Row="2" Grid.Column="0" x:Name="Description"/>
-        <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Content="Ok"  Click="Ok" IsDefault="True" Margin="5" Width="100"/>
-            <Button Content="Cancel" IsCancel="True" Margin="5" Width="100"/>
+        <TextBlock Grid.Row="0"
+                   Text="Create a New World"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Margin="0,0,0,16"/>
+
+        <StackPanel Grid.Row="1" Margin="0,0,0,12">
+            <TextBlock Text="World name" Margin="0,0,0,4"/>
+            <TextBox Text="{Binding Name}" Height="28"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Margin="0,0,0,16">
+            <TextBlock Text="Description" Margin="0,0,0,4"/>
+            <TextBox Text="{Binding Description}"
+                     Height="90"
+                     TextWrapping="Wrap"
+                     AcceptsReturn="True"
+                     VerticalScrollBarVisibility="Auto"/>
+        </StackPanel>
+
+        <Border Grid.Row="3"
+                Padding="10"
+                BorderThickness="1"
+                CornerRadius="6"
+                Margin="0,0,0,16">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsEdited}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,0">
+                <Image Width="64"
+                       Height="64"
+                       Source="{Binding IconBitmap}"
+                       Stretch="Uniform"
+                       Margin="0,0,16,0"/>
+                <StackPanel>
+                    <TextBlock Text="World icon"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,6"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="Change icon"
+                                Width="140"
+                                Command="{Binding ChangeIconCommand}"/>
+                        <Button Content="Delete icon"
+                                Width="100"
+                                Command="{Binding DeleteIconCommand}">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsEdited}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <StackPanel Grid.Row="4"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+            <Button Content="Cancel"
+                    Width="100"
+                    Margin="0,0,10,0"
+                    IsCancel="True"/>
+            <Button Width="100"
+                    IsDefault="True"
+                    Click="Ok">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Content" Value="Create"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsEdited}" Value="True">
+                                <Setter Property="Content" Value="Edit"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
         </StackPanel>
     </Grid>
 </Window>

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp1.Model.DataType.Contents;
+using WpfApp1.Model.DataType.Entities;
 
 namespace WpfApp1.ViewModel
 {
@@ -13,9 +14,9 @@ namespace WpfApp1.ViewModel
 
         public RichTextEditorViewModel RichTextEditor { get; set; } = new();
 
-        public RichTextEditorWindowViewModel(EntityPage? defaultValue)
+        public RichTextEditorWindowViewModel(Entity? owner)
         {
-            RichTextEditor.SetDefaultValue(defaultValue);
+            RichTextEditor.SetOwner(owner);
         }
     }
 }

@@ -6,47 +6,26 @@
              xmlns:local="clr-namespace:WpfApp1.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <StackPanel 
-            Orientation="Horizontal" 
-            Grid.Row="0" 
-            Margin="5"
-            >
-            <Button 
-                Margin="10" 
-                Content="Add Header" 
-                Command="{Binding HeaderCommand}"
-                />
-            
-            <Button 
-                Margin="10" 
-                Content="Add Paragraph" 
-                Command="{Binding ParagraphCommand}"
-                />
-            
-            <Button 
-                Margin="10" 
-                Content="Add Image" 
-                Command="{Binding ImageCommand}"
-                />
-            
-            <Button 
-                Margin="10" 
-                Content="Add Link" 
-                Command="{Binding LinkCommand}"
-                />
-        </StackPanel>
-        
-        <FlowDocumentScrollViewer 
-            Grid.Row="1" 
-            VerticalScrollBarVisibility="Auto" 
-            Margin="10" 
-            x:Name="Editor" 
-            Document="{Binding Document, Mode=TwoWay}"/>
 
+        <!-- Toolbar -->
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="5" HorizontalAlignment="Left">
+            <Button Content="Add Header" Command="{Binding HeaderCommand}" Margin="5" Padding="6"/>
+            <Button Content="Add Paragraph" Command="{Binding ParagraphCommand}" Margin="5" Padding="6"/>
+            <Button Content="Add Image" Command="{Binding ImageCommand}" Margin="5" Padding="6"/>
+            <Button Content="Add Link" Command="{Binding LinkCommand}" Margin="5" Padding="6"/>
+        </StackPanel>
+
+        <!-- Editor -->
+        <FlowDocumentScrollViewer Grid.Row="1" 
+                                  VerticalScrollBarVisibility="Auto" 
+                                  Margin="10" 
+                                  x:Name="Editor" 
+                                  Document="{Binding Document, Mode=TwoWay}"/>
     </Grid>
 </UserControl>

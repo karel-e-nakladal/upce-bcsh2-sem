@@ -1,13 +1,15 @@
 ﻿using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WpfApp1.Database;
 using System.Windows.Controls;
-using WpfApp1.Model.DataType.Entities;
+using WpfApp1.Database;
+using WpfApp1.DataType;
 using WpfApp1.Model.DataType.Contents;
+using WpfApp1.Model.DataType.Entities;
 
 namespace WpfApp1.Model.Database.Tables
 {
@@ -44,8 +46,8 @@ namespace WpfApp1.Model.Database.Tables
 
             cmd.Parameters.AddWithValue("$name", item.Name ?? "");
             cmd.Parameters.AddWithValue("$description", item.Description ?? "");
-            cmd.Parameters.AddWithValue("$icon", item.Icon ?? "");
-            cmd.Parameters.AddWithValue("$map", item.Map ?? "");
+            cmd.Parameters.AddWithValue("$icon", item.Icon ?? Manager.GetInstance().ImageManager.GetDefaultImage());
+            cmd.Parameters.AddWithValue("$map", item.Map ?? Manager.GetInstance().ImageManager.GetDefaultImage());
             cmd.Parameters.AddWithValue("$page_id", pageId);
 
             cmd.ExecuteNonQuery();
@@ -88,11 +90,14 @@ namespace WpfApp1.Model.Database.Tables
         {
             World removed = Get(id);
 
+            Manager.GetInstance().ImageManager.DeleteEntity(removed.Type, removed.Id);
+
             var conn = _db.getConnection();
 
             var cmd = conn.CreateCommand();
 
-            new PageTable().Remove(Get(id).Content.Id); // Deleting Page
+            var page = Get(id).Content;
+            new PageTable().Remove(page.Id); // Deleting Page
 
             cmd.CommandText = "DELETE FROM worlds WHERE id = $id";
 

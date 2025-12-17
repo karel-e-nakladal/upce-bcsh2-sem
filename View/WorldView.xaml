@@ -8,54 +8,63 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="WorldView">
 
-    <Grid>
+    <Grid Margin="16">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        
-        <StackPanel Grid.Column="0">
-            <Button Content="World Selection" Command="{Binding BackCommand}"/>
-            <TextBlock Text="{Binding World.Name}" />
-            <!--
-            <Image Source="{Binding World.Icon}"/>
-            <TextBlock Text="{Binding World.Description}" />
-            <TextBlock Text="{Binding World.Created}" />
-            -->
-            <Button Content="Edit Page" Command="{Binding EditCommand}"/>
-            <Button Content="Add Entity" Command="{Binding AddCommand}"/>
+
+        <StackPanel Grid.Column="0" Margin="0,0,16,0" VerticalAlignment="Top">
+            <Button Content="World Selection" Command="{Binding BackCommand}" Margin="0,0,0,10" Padding="6"/>
+            <TextBlock Text="{Binding World.Name}" FontWeight="Bold" Margin="0,0,0,10"/>
+            <Image Width="64" Height="64" Source="{Binding World.IconBitmap}" Margin="0,0,16,0"/>
+            <TextBlock Text="{Binding World.Description}" FontWeight="Bold" Margin="0,0,0,10"/>
             
-            <TreeView ItemsSource="{Binding ChildrenForBinding}" Height="auto">
+
+            <Button Content="Edit Page" Command="{Binding EditCommand}" Margin="0,5,0,0" Padding="6"/>
+            <Button Content="Add Entity" Command="{Binding AddCommand}" Margin="0,5,0,10" Padding="6"/>
+
+            <TextBlock Text="Entities" FontWeight="Bold" Margin="0,10,0,5"/>
+
+            <TreeView ItemsSource="{Binding ChildrenForBinding}" VerticalAlignment="Stretch">
+                <TreeView.Resources>
+                    <Style TargetType="Button" x:Key="TreeEntityButton">
+                        <Setter Property="Foreground" Value="{StaticResource Text}"/>
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="Padding" Value="2"/>
+                        <Setter Property="HorizontalAlignment" Value="Left"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="{StaticResource Accent}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TreeView.Resources>
+
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate ItemsSource="{Binding Value.Values}">
-                        <!-- Nadpis skupiny = EntityType -->
-                        <TextBlock Text="{Binding Key}" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding Key}" FontWeight="Bold" Margin="0,2,0,2"/>
 
                         <HierarchicalDataTemplate.ItemTemplate>
                             <DataTemplate>
-                                <!-- Název entity jako tlačítko -->
                                 <Button Content="{Binding Name}" 
-                                    Command="{Binding DataContext.OpenEntityCommand, RelativeSource={RelativeSource AncestorType=TreeView}}"
-                                    CommandParameter="{Binding Id}"
-                                    Background="Transparent"
-                                    BorderThickness="0"
-                                    Padding="0"
-                                    HorizontalAlignment="Left"/>
+                            Command="{Binding DataContext.OpenEntityCommand, RelativeSource={RelativeSource AncestorType=TreeView}}"
+                            CommandParameter="{Binding}"
+                            Style="{StaticResource TreeEntityButton}"/>
                             </DataTemplate>
                         </HierarchicalDataTemplate.ItemTemplate>
-
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
             </TreeView>
-            
+
         </StackPanel>
+
+        <!-- RIGHT PANEL: Rich Text Editor -->
         <FlowDocumentScrollViewer 
             Grid.Column="1" 
             VerticalScrollBarVisibility="Auto" 
-            Margin="10" 
+            Margin="0"
             x:Name="Editor" 
             Document="{Binding Page, Mode=TwoWay}"/>
     </Grid>

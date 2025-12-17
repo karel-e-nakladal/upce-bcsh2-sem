@@ -4,46 +4,132 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.View"
+        xmlns:model="clr-namespace:WpfApp1.Model"
         mc:Ignorable="d"
-        Title="New Entity" Height="450" Width="800">
+        Title="New Entity" Height="550" Width="800">
+
+    <Window.Resources>
+
+        <!-- ===== CHARACTER STATS ===== -->
+        <DataTemplate x:Key="CharacterTemplate">
+            <Border Padding="10" CornerRadius="6" BorderThickness="1">
+                <UniformGrid Columns="2" Margin="0,8,0,0">
+                    <TextBlock Text="Strength"/>
+                    <TextBox Text="{Binding Strength, Mode=TwoWay}"/>
+
+
+                    <TextBlock Text="Dexterity"/>
+                    <TextBox Text="{Binding Dexterity, Mode=TwoWay}"/>
+
+
+                    <TextBlock Text="Constitution"/>
+                    <TextBox Text="{Binding Constitution, Mode=TwoWay}"/>
+
+
+                    <TextBlock Text="Intelligence"/>
+                    <TextBox Text="{Binding Intelligence, Mode=TwoWay}"/>
+
+
+                    <TextBlock Text="Wisdom"/>
+                    <TextBox Text="{Binding Wisdom, Mode=TwoWay}"/>
+
+
+                    <TextBlock Text="Charisma"/>
+                    <TextBox Text="{Binding Charisma, Mode=TwoWay}"/>
+                </UniformGrid>
+            </Border>
+        </DataTemplate>
+
+
+        <!-- ===== ITEM ===== -->
+        <DataTemplate x:Key="ItemTemplate">
+            <Border Padding="10" CornerRadius="6" BorderThickness="1">
+                <StackPanel>
+                    <TextBlock Text="Value" Margin="0,0,0,4"/>
+                    <TextBox Text="{Binding Value, Mode=TwoWay}"/>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+
+
+        <DataTemplate x:Key="EmptyTemplate">
+            <StackPanel/>
+        </DataTemplate>
+
+    </Window.Resources>
+
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <StackPanel Margin="10">
-            <!-- Name -->
-            <TextBlock Text="Name"/>
-            <TextBox Width="100" HorizontalAlignment="Left" x:Name="Name"/>
-            <!-- ReadableId -->
-            <TextBlock Text="Readable Id (Used in links)"/>
-            <TextBox Width="100" HorizontalAlignment="Left" x:Name="ReadableId"/>
-            <!-- Type -->
-            <ComboBox Width="100" x:Name="EntityType" HorizontalAlignment="Left" ItemsSource="{Binding TypeOptions}" SelectedItem="{Binding SelectedType}"/>
-                <!-- Icon -->
-            <TextBlock Text="Icon"/>
-            <Image Height="64" Width="64"/>
-            <!-- Change icon -->
-            <Button Content="Change Icon" Width="100" Command="{Binding ChangeIconCommand}"/>
-            <!-- Description -->
-            <TextBlock Text="Description"/>
-            <!-- Description -->
-            <ScrollViewer Width="200" Height="150" HorizontalAlignment="Left">
-                <TextBox x:Name="Description"/>
-            </ScrollViewer>
-            <!-- Galery-->
-            <TextBlock Text="Galery"/>
-            <ListView ItemsSource="{Binding GaleryImages}">
+            <StackPanel Margin="10">
+                <TextBlock Text="Entity name" Margin="0,0,0,4"/>
+                <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-            </ListView>
-            <!-- Rich text editor -->
-            <local:RichTextEditorView DataContext="{Binding RichTextEditor}" x:Name="RichText"/>
-            <!-- Relations -->
-        
-            <!-- Controls -->
-            <StackPanel Orientation="Horizontal">
-                <Button Content="Ok" Click="Ok" IsDefault="True"/>
-                <Button Content="Save" Command="{Binding SaveCommand}"/>
-                <Button Content="Cancel" IsCancel="True"/>
+                <TextBlock Text="Readable ID" Margin="0,12,0,4"/>
+                <TextBox Text="{Binding ReadableId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <StackPanel Margin="0,12,0,0">
+                    <TextBlock Text="Entity type" Margin="0,0,0,4"/>
+                    <ComboBox ItemsSource="{Binding TypeOptions}"
+                        SelectedItem="{Binding SelectedType}">
+                        <ComboBox.Style>
+                            <Style TargetType="ComboBox">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsEdited}" Value="True">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ComboBox.Style>
+                    </ComboBox>
+                </StackPanel>
+
+                <Border Padding="10" Margin="0,16,0,0" CornerRadius="6" BorderThickness="1">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsEdited}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Image Width="64" Height="64" Source="{Binding IconBitmap}" Margin="0,0,16,0"/>
+                        <Button Content="Change icon" Command="{Binding ChangeIconCommand}" Width="140"/>
+                    </StackPanel>
+                </Border>
+
+                <TextBlock Text="Description" Margin="0,16,0,4"/>
+                <TextBox Height="100"
+                    TextWrapping="Wrap"
+                    AcceptsReturn="True"
+                    Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <ContentControl Content="{Binding}" Margin="0,16,0,0">
+                    <ContentControl.Style>
+                        <Style TargetType="ContentControl">
+                            <Setter Property="ContentTemplate" Value="{StaticResource EmptyTemplate}"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding SelectedType}" Value="Character">
+                                    <Setter Property="ContentTemplate" Value="{StaticResource CharacterTemplate}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding SelectedType}" Value="Item">
+                                    <Setter Property="ContentTemplate" Value="{StaticResource ItemTemplate}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ContentControl.Style>
+                </ContentControl>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+                    <Button Content="Cancel" IsCancel="True" Width="100" Margin="0,0,10,0"/>
+                    <Button Content="Save" IsDefault="True" Width="100" Click="Ok"/>
+                </StackPanel>
             </StackPanel>
-        </StackPanel>
         </ScrollViewer>
     </Grid>
 </Window>

@@ -1,51 +1,160 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <SolidColorBrush x:Key="Background" Color="#613802"/>
-    <SolidColorBrush x:Key="Border" Color="#1f4001"/>
-    <SolidColorBrush x:Key="Highlight" Color="#3d5e04"/>
-    <SolidColorBrush x:Key="Text" Color="#f7bf25"/>
+    <!-- ===== FANTASY MEDIEVAL PALETTE ===== -->
+    <!-- Dark parchment / wood background -->
+    <SolidColorBrush x:Key="Background" Color="#2E1B0F"/>
 
+    <!-- Aged bronze / iron borders -->
+    <SolidColorBrush x:Key="Border" Color="#6B4E2E"/>
+
+    <!-- Moss / rune glow highlight -->
+    <SolidColorBrush x:Key="Highlight" Color="#8FAE4E"/>
+
+    <!-- Parchment / gold text -->
+    <SolidColorBrush x:Key="Text" Color="#E6D3A3"/>
+
+    <!-- Accent gold (titles, important buttons) -->
+    <SolidColorBrush x:Key="Accent" Color="#C9A441"/>
+
+    <!-- ===== GLOBAL CONTROL STYLE ===== -->
     <Style TargetType="Control">
-        <Setter Property="FontSize" Value="30"/>
+        <Setter Property="FontFamily" Value="Segoe UI Semibold"/>
+        <Setter Property="FontSize" Value="16"/>
     </Style>
-    
+
+    <!-- ===== TEXT ===== -->
     <Style TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource Text}"/>
     </Style>
-    
+
+    <!-- ===== TEXTBOX ===== -->
     <Style TargetType="TextBox">
         <Setter Property="Foreground" Value="{StaticResource Text}"/>
-        <Setter Property="Background" Value="{StaticResource Border}"/>
+        <Setter Property="Background" Value="#3A2416"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Border}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="6"/>
+        <Setter Property="CaretBrush" Value="{StaticResource Accent}"/>
+        <Setter Property="SelectionBrush" Value="#66502A"/>
     </Style>
 
+    <!-- ===== GRID / PANEL ===== -->
     <Style TargetType="Grid">
         <Setter Property="Background" Value="{StaticResource Background}"/>
     </Style>
-    
-    <Style TargetType="ComboBox">
-        <Setter Property="Foreground" Value="{StaticResource Text}"/>
-        <Setter Property="Background" Value="{StaticResource Background}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource Border}"/>
-    </Style>
-    
+
     <Style TargetType="StackPanel">
         <Setter Property="Background" Value="{StaticResource Background}"/>
     </Style>
 
-    <Style TargetType="Button" >
-        <Setter Property="Background" Value="{StaticResource Background}"/>
+    <!-- ===== COMBOBOX ===== -->
+    <Style TargetType="ComboBox">
+        <Setter Property="Foreground" Value="{StaticResource Text}"/>
+        <Setter Property="Background" Value="#3A2416"/>
         <Setter Property="BorderBrush" Value="{StaticResource Border}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="4"/>
+    </Style>
+
+    <!-- ===== BUTTON ===== -->
+    <Style TargetType="Button">
+        <Setter Property="Foreground" Value="{StaticResource Text}"/>
+        <Setter Property="Background" Value="#3A2416"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Border}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="8,4"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="4">
+                        <ContentPresenter HorizontalAlignment="Center"
+                        VerticalAlignment="Center"/>
+                    </Border>
+
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource Highlight}"/>
+                            <Setter Property="Foreground" Value="#1E2A12"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="#6F7F3A"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.5"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ===== TREEVIEW (FANTASY NAVIGATION) ===== -->
+    <Style TargetType="TreeView">
+        <Setter Property="Background" Value="#2E1B0F"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Border}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="6"/>
+    </Style>
+
+    <Style TargetType="TreeViewItem">
+        <Setter Property="Foreground" Value="{StaticResource Text}"/>
+        <Setter Property="Margin" Value="2"/>
+        <Setter Property="IsExpanded" Value="True"/>
+        <Setter Property="Padding" Value="4"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#3A2416"/>
+            </Trigger>
+            <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Background" Value="{StaticResource Highlight}"/>
+                <Setter Property="Foreground" Value="#1E2A12"/>
             </Trigger>
         </Style.Triggers>
     </Style>
 
-    <Style TargetType="ListBox">
-        <Setter Property="Background" Value="{StaticResource Background}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource Border}"/>
+
+    <!-- ===== TREEVIEW BUTTON (ENTITY LINK) ===== -->
+    <Style TargetType="Button" x:Key="TreeEntityButton">
+        <Setter Property="Foreground" Value="{StaticResource Text}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="2"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource Accent}"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
+    <!-- ===== FLOWDOCUMENT VIEWER (SCROLL / PARCHMENT) ===== -->
+    <Style TargetType="FlowDocumentScrollViewer">
+        <Setter Property="Background" Value="#3A2416"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Border}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="12"/>
+        <Setter Property="Foreground" Value="{StaticResource Text}"/>
+        <Setter Property="FontFamily" Value="Segoe UI"/>
+    </Style>
+
+    <Style TargetType="FlowDocument">
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontFamily" Value="Segoe UI"/>
+        <Setter Property="Foreground" Value="{StaticResource Text}"/>
+    </Style>
+
+    <!-- ===== LISTBOX ===== -->
+    <Style TargetType="ListBox">
+        <Setter Property="Background" Value="#3A2416"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Border}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+    </Style>
 </ResourceDictionary>

@@ -20,10 +20,10 @@ namespace WpfApp1.ViewModel
     public partial class WorldListViewModel : ObservableObject
     {
         [ObservableProperty]
-        private ObservableCollection<World> _worlds;
+        private ObservableCollection<World> worlds;
         
         [ObservableProperty]
-        private World ?_selectedWorld;
+        private World? selectedWorld;
 
         public IRelayCommand SelectCommand { get; }
         public IRelayCommand AddCommand { get; }
@@ -31,7 +31,7 @@ namespace WpfApp1.ViewModel
         public IRelayCommand DeleteCommand { get; }
         public WorldListViewModel()
         {
-            _worlds = new ObservableCollection<World>(Manager.GetInstance().GetWorlds());
+            worlds = new ObservableCollection<World>(Manager.GetInstance().GetWorlds());
             SelectCommand = new RelayCommand(Select);
             AddCommand = new RelayCommand(Add);
             EditCommand = new RelayCommand(Edit);
@@ -58,30 +58,32 @@ namespace WpfApp1.ViewModel
 
             if (dia.ShowDialog() == true)
             {
-                string name = dia.Name.Text;
-                string description = dia.Description.Text;
+                var vm = (AddWorldViewModel)dia.DataContext;
+                string name = vm.Name;
+                string description = vm.Description;
 
                 var newWorld = new World { Name = name, Description = description };
                 Worlds.Add(Manager.GetInstance().AddWorld(newWorld));
+                Manager.GetInstance().MainWindow.MainFrame.Navigate(new WorldListView());
             }
+
         }
         private void Delete()
         {
             if (SelectedWorld is null)
                 return;
             SelectedWorld.Remove();
-            _worlds.Remove(SelectedWorld);
+            Worlds.Remove(SelectedWorld);
             SelectedWorld = null;
+
+            Manager.GetInstance().MainWindow.MainFrame.Navigate(new WorldListView());
         }
         private void Edit()
         {
             if (SelectedWorld is null)
                 return;
 
-            var dia = new AddWorldView();
-
-            dia.Name.Text = SelectedWorld.Name;
-            dia.Description.Text = SelectedWorld.Description;
+            var dia = new AddWorldView(SelectedWorld);
 
             var position = Mouse.GetPosition(Manager.GetInstance().MainWindow);
             var point = Manager.GetInstance().MainWindow.PointToScreen(position);
@@ -91,10 +93,15 @@ namespace WpfApp1.ViewModel
 
             if (dia.ShowDialog() == true)
             {
-                SelectedWorld.Name = dia.Name.Text;
-                SelectedWorld.Description = dia.Description.Text;
+                var vm = (AddWorldViewModel)dia.DataContext;
+                SelectedWorld.Name = vm.Name;
+                SelectedWorld.Description = vm.Description;
+                SelectedWorld.Icon = vm.IconPath;
                 SelectedWorld.Update();
+
+                Manager.GetInstance().MainWindow.MainFrame.Navigate(new WorldListView());
             }
+
         }
     }
 }

@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp1.Model.DataType.Contents;
+using WpfApp1.Model.DataType.Entities;
+using WpfApp1.ViewModel;
 
 namespace WpfApp1.View
 {
@@ -21,13 +23,16 @@ namespace WpfApp1.View
     /// </summary>
     public partial class AddImageView : Window
     {
-        public AddImageView(PageBlock? data = null)
+        public AddImageView(Entity entity, PageBlock? data = null)
         {
             InitializeComponent();
-            if (data is not null && data.Type == ContentType.Image)
-            {
-                Name.Text = (data.Text);
-            }
+            var vm = new AddImageViewModel(entity, data);
+            DataContext = vm;
+            vm.RequestClose += () => {
+                this.DialogResult = true;
+                this.Close();
+                };
+            
         }
         private void Ok(Object sender, RoutedEventArgs e)
         {

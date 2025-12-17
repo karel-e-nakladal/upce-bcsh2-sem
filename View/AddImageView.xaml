@@ -3,17 +3,29 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApp1.View"
         mc:Ignorable="d"
-        Title="Image" Height="160" Width="300">
+        Title="Image" Height="230" Width="300">
     <Grid>
         <StackPanel Margin="10">
-            <TextBlock Text="Name of the image"/>
-            <TextBox x:Name="Name"/>
-            <Button Content="Select image"/>
-            <StackPanel Margin="10" Orientation="Horizontal">
-                <Button Content="Ok" Click="Ok" IsDefault="True"/>
-                <Button Content="Cancel" IsCancel="True"/>
+            <Image Width="64" Height="64" Source="{Binding Path}" Margin="0,0,16,0"/>
+
+            <Button Content="Select image" Padding="6" Command="{Binding SelectImageCommand}"/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Ok" Click="Ok" IsDefault="True" Margin="5" Padding="6"/>
+                <Button Content="Delete image" Padding="6" Margin="10,0,0,0" Command="{Binding DeleteImageCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsEdited}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Content="Cancel" IsCancel="True" Margin="5" Padding="6"/>
             </StackPanel>
         </StackPanel>
     </Grid>
