@@ -33,16 +33,27 @@ namespace WpfApp1.ViewModel
         private String? iconPath;
 
         [ObservableProperty]
+        public BitmapImage? mapBitmap;
+
+        [ObservableProperty]
+        private String? mapPath;
+
+        [ObservableProperty]
         private bool isEdited = false;
 
         public RelayCommand ChangeIconCommand { get; }
         public RelayCommand DeleteIconCommand { get; }
+
+        public RelayCommand ChangeMapCommand { get; }
+        public RelayCommand DeleteMapCommand { get; }
 
 
         public AddWorldViewModel(World? data)
         {
             ChangeIconCommand = new RelayCommand(ChangeIcon);
             DeleteIconCommand = new RelayCommand(DeleteIcon);
+            ChangeMapCommand = new RelayCommand(ChangeMap);
+            DeleteMapCommand = new RelayCommand(DeleteMap);
             if (data != null)
             {
                 isEdited = true;
@@ -51,6 +62,8 @@ namespace WpfApp1.ViewModel
                 description = data.Description;
                 iconBitmap = data.IconBitmap;
                 iconPath = data.Icon;
+                mapBitmap = data.MapBitmap;
+                mapPath = data.Map;
             }
         }
 
@@ -69,6 +82,22 @@ namespace WpfApp1.ViewModel
             IconPath = Manager.GetInstance().ImageManager.Delete(EntityType.World, ImageType.Icon, (int)id);
 
             IconBitmap = Manager.GetInstance().ImageManager.LoadBitmap(IconPath);
+        }
+        private void ChangeMap()
+        {
+            if (!IsEdited || id == null) return;
+
+            MapPath = Manager.GetInstance().ImageManager.ShowWindow(EntityType.World, ImageType.Map, (int)id);
+
+            MapBitmap = Manager.GetInstance().ImageManager.LoadBitmap(MapPath);
+        }
+        private void DeleteMap()
+        {
+            if (!IsEdited || id == null) return;
+
+            MapPath = Manager.GetInstance().ImageManager.Delete(EntityType.World, ImageType.Map, (int)id);
+
+            MapBitmap = Manager.GetInstance().ImageManager.LoadBitmap(MapPath);
         }
     }
 }

@@ -28,7 +28,6 @@ namespace WpfApp1.Model.DataType.Entities
             {
                 if (SetProperty(ref icon, value))
                 {
-                    // Icon se změnil → upozornit i na IconBitmap
                     OnPropertyChanged(nameof(IconBitmap));
                 }
             }

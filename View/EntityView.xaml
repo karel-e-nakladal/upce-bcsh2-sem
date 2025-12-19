@@ -74,8 +74,6 @@
                 <TextBlock Text="Description:"/>
                 <TextBlock Text="{Binding Description}" />
 
-                <TextBlock Text="Map"/>
-                <TextBlock Text="{Binding Map}" />
             </StackPanel>
         </DataTemplate>
 
@@ -89,13 +87,9 @@
                 <TextBlock Text="{Binding Description}" />
 
                 <TextBlock Text="Flag"/>
-                <TextBlock Text="{Binding Flag}" />
-
-                <TextBlock Text="Map"/>
-                <TextBlock Text="{Binding Map}" />
+                <Image Width="128" Height="128" Source="{Binding FlagBitmap}" Margin="0,0,16,0"/>
             </StackPanel>
         </DataTemplate>
-
     </Page.Resources>
 
     <Grid>
@@ -114,10 +108,32 @@
             <Button Content="Edit Entity" Command="{Binding EditEntityCommand}"/>
         </StackPanel>
 
-        <FlowDocumentScrollViewer 
-            Grid.Column="1"
-            Margin="10"
-            VerticalScrollBarVisibility="Auto"
-            Document="{Binding Page}" />
+        <StackPanel Grid.Column="1">
+            <Border>
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding HasMap}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <TextBlock Text="Map" HorizontalAlignment="Center"/>
+                    <Image Width="500" Height="500" Source="{Binding MapBitmap}" Margin="0,0,16,0"/>
+                </StackPanel>
+            </Border>
+
+            <FlowDocumentScrollViewer 
+                Grid.Column="1"
+                Margin="10"
+                VerticalScrollBarVisibility="Auto"
+                Document="{Binding Page}" />
+            
+        </StackPanel>
     </Grid>
 </Page>

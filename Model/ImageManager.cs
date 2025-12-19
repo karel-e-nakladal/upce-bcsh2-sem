@@ -39,7 +39,6 @@ namespace WpfApp1.Model
                             image,
                             worldId,
                             selectedFile);
-
                     }
                     else
                     {
@@ -50,7 +49,6 @@ namespace WpfApp1.Model
                             selectedFile,
                             entityId);
                     }
-
                     return path;
                 }
                 catch (Exception ex)

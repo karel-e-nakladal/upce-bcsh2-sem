@@ -43,14 +43,26 @@ namespace WpfApp1.ViewModel
         private string? name;
         [ObservableProperty]
         private string? description;
-        [ObservableProperty]
-        private string? readableId;
 
         [ObservableProperty]
         public BitmapImage? iconBitmap;
 
         [ObservableProperty]
         private String? iconPath;
+        
+        [ObservableProperty]
+        public BitmapImage? flagBitmap;
+
+        [ObservableProperty]
+        private String? flagPath;
+        
+        [ObservableProperty]
+        public BitmapImage? mapBitmap;
+
+        [ObservableProperty]
+        private String? mapPath;
+
+
 
         [ObservableProperty]
         private int? strength;
@@ -69,10 +81,14 @@ namespace WpfApp1.ViewModel
         private int? value;
 
         public RelayCommand ChangeIconCommand { get; }
+        public RelayCommand ChangeFlagCommand { get; }
+        public RelayCommand ChangeMapCommand { get; }
 
         public AddEntityViewModel(RealEntity? data)
         {
             ChangeIconCommand = new RelayCommand(ChangeIcon);
+            ChangeFlagCommand = new RelayCommand(ChangeFlag);
+            ChangeMapCommand = new RelayCommand(ChangeMap);
 
             if (data != null)
             {
@@ -80,21 +96,25 @@ namespace WpfApp1.ViewModel
                 id = data.Id;
                 worldId = data.World;
                 Name = data.Name;
-                ReadableId = data.ReadableId;
                 Description = data.Description;
                 IconPath = data.Icon;
                 IconBitmap = data.IconBitmap;
                 
-
                 selectedType = data.Type;
 
                 switch(data.Type)
                 {
                     case EntityType.Location:
-
+                        var tmpL = (Location)data;
+                        MapPath = tmpL.Map;
+                        MapBitmap = tmpL.MapBitmap;
                         break;
                     case EntityType.Nation:
-
+                        var tmpN = (Nation)data;
+                        MapPath = tmpN.Map;
+                        MapBitmap = tmpN.MapBitmap;
+                        FlagPath= tmpN.Flag;
+                        FlagBitmap = tmpN.FlagBitmap;
                         break;
                     case EntityType.Character:
                         var tmpC = (Character)data;
@@ -122,6 +142,24 @@ namespace WpfApp1.ViewModel
             IconPath = Manager.GetInstance().ImageManager.ShowWindow(SelectedType, ImageType.Icon, (int)worldId, id);
 
             IconBitmap = Manager.GetInstance().ImageManager.LoadBitmap(IconPath);
+        }
+
+        private void ChangeMap()
+        {
+            if (!IsEdited || id == null) return;
+
+            MapPath = Manager.GetInstance().ImageManager.ShowWindow(SelectedType, ImageType.Map, (int)worldId, id);
+
+            MapBitmap = Manager.GetInstance().ImageManager.LoadBitmap(MapPath);
+        }
+
+        private void ChangeFlag()
+        {
+            if (!IsEdited || id == null) return;
+
+            FlagPath = Manager.GetInstance().ImageManager.ShowWindow(SelectedType, ImageType.Flag, (int)worldId, id);
+
+            FlagBitmap = Manager.GetInstance().ImageManager.LoadBitmap(FlagPath);
         }
 
     }

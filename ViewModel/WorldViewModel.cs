@@ -102,8 +102,6 @@ namespace WpfApp1.ViewModel
                         {
                             Name = vm.Name,
                             Description = vm.Description,
-                            //Icon = dia.Icon.ToString(),
-                            ReadableId = vm.ReadableId,
                             World = Manager.GetInstance().GetWorld().Id
                         };
                         Manager.GetInstance().Database.Location.Add(location);
@@ -113,8 +111,6 @@ namespace WpfApp1.ViewModel
                         {
                             Name = vm.Name,
                             Description = vm.Description,
-                            //Icon = dia.Icon.ToString(),
-                            ReadableId = vm.ReadableId,
                             World = Manager.GetInstance().GetWorld().Id
                         };
                         Manager.GetInstance().Database.Nation.Add(nation);
@@ -124,8 +120,6 @@ namespace WpfApp1.ViewModel
                         {
                             Name = vm.Name,
                             Description = vm.Description,
-                            //Icon = dia.Icon.ToString(),
-                            ReadableId = vm.ReadableId,
                             World = Manager.GetInstance().GetWorld().Id,
                             Strength = vm.Strength ?? 0,
                             Dexterity = vm.Dexterity ?? 0,
@@ -141,8 +135,6 @@ namespace WpfApp1.ViewModel
                         {
                             Name = vm.Name,
                             Description = vm.Description,
-                            //Icon = dia.Icon.ToString(),
-                            ReadableId = vm.ReadableId,
                             World = Manager.GetInstance().GetWorld().Id,
                             Value = vm.Value ?? 0
                         };

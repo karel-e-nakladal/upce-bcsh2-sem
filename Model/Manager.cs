@@ -43,7 +43,8 @@ namespace WpfApp1.DataType
 
         public void RemoveWorld(World world)
         {
-            _worldList.Remove(Database.World.Remove(world.Id));
+            Database.World.Remove(world.Id);
+            _worldList.Remove(world);
             if (_selectedWorld == world)
                 _selectedWorld = null;
         }

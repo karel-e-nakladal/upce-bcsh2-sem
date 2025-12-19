@@ -59,8 +59,18 @@ namespace WpfApp1.Database
             using var dropCmd1 = connection.CreateCommand();
             dropCmd1.CommandText = $"DROP TABLE IF EXISTS worlds;";
             dropCmd1.ExecuteNonQuery();
+            dropCmd1.CommandText = $"DROP TABLE IF EXISTS locations;";
+            dropCmd1.ExecuteNonQuery();
+            dropCmd1.CommandText = $"DROP TABLE IF EXISTS nations;";
+            dropCmd1.ExecuteNonQuery();
+            dropCmd1.CommandText = $"DROP TABLE IF EXISTS characters;";
+            dropCmd1.ExecuteNonQuery();
+            dropCmd1.CommandText = $"DROP TABLE IF EXISTS items;";
+            dropCmd1.ExecuteNonQuery();
+            dropCmd1.CommandText = $"DROP TABLE IF EXISTS pages;";
+            dropCmd1.ExecuteNonQuery();
             
-
+            /*
             // UNCOMENT WHEN THERE ARE NO FOREIGN KEYS 
             var tableNames = new List<string>();
             using (var cmd = connection.CreateCommand())
@@ -76,6 +86,7 @@ namespace WpfApp1.Database
                 dropCmd.CommandText = $"DROP TABLE IF EXISTS {table};";
                 dropCmd.ExecuteNonQuery();
             }
+            */
         }
         
         private void Setup()
@@ -113,7 +124,6 @@ namespace WpfApp1.Database
             cmd.CommandText = "CREATE TABLE IF NOT EXISTS locations (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "world_id INTEGER," + // world
-                "readable_id VARCHAR(50)," + // id used for hyperlink
                 "name VARCHAR(100) NOT NULL," + // name
                 "description TEXT," + // description
                 "icon VARCHAR(100)," + // icon link
@@ -132,7 +142,6 @@ namespace WpfApp1.Database
             cmd.CommandText = "CREATE TABLE IF NOT EXISTS nations (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "world_id INTEGER," + // world
-                "readable_id VARCHAR(50)," + // id used for hyperlink
                 "name VARCHAR(100) NOT NULL," + // name
                 "description TEXT," + // description
                 "icon VARCHAR(100)," + // icon link
@@ -151,7 +160,6 @@ namespace WpfApp1.Database
             cmd.CommandText = "CREATE TABLE IF NOT EXISTS characters (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "world_id INTEGER," + // world
-                "readable_id VARCHAR(50)," + // id used for hyperlink
                 "name VARCHAR(100) NOT NULL," + // name
                 "description TEXT," + // description
                 "icon VARCHAR(100)," + // icon link
@@ -174,7 +182,6 @@ namespace WpfApp1.Database
             cmd.CommandText = "CREATE TABLE IF NOT EXISTS items (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "world_id INTEGER," + // world
-                "readable_id VARCHAR(50)," + // id used for hyperlink
                 "name VARCHAR(100) NOT NULL," + // name
                 "description TEXT," + // description
                 "icon VARCHAR(100)," + // icon link

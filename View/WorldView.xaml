@@ -19,7 +19,7 @@
             <TextBlock Text="{Binding World.Name}" FontWeight="Bold" Margin="0,0,0,10"/>
             <Image Width="64" Height="64" Source="{Binding World.IconBitmap}" Margin="0,0,16,0"/>
             <TextBlock Text="{Binding World.Description}" FontWeight="Bold" Margin="0,0,0,10"/>
-            
+
 
             <Button Content="Edit Page" Command="{Binding EditCommand}" Margin="0,5,0,0" Padding="6"/>
             <Button Content="Add Entity" Command="{Binding AddCommand}" Margin="0,5,0,10" Padding="6"/>
@@ -59,13 +59,16 @@
             </TreeView>
 
         </StackPanel>
-
-        <!-- RIGHT PANEL: Rich Text Editor -->
-        <FlowDocumentScrollViewer 
-            Grid.Column="1" 
-            VerticalScrollBarVisibility="Auto" 
-            Margin="0"
-            x:Name="Editor" 
-            Document="{Binding Page, Mode=TwoWay}"/>
+        
+        <StackPanel 
+            Grid.Column="1">
+            <TextBlock Text="Map" HorizontalAlignment="Center"/>
+            <Image Width="500" Height="500" Source="{Binding World.MapBitmap}" Margin="0,0,16,0"/>
+            <FlowDocumentScrollViewer 
+                VerticalScrollBarVisibility="Auto" 
+                Margin="0"
+                x:Name="Editor" 
+                Document="{Binding Page, Mode=TwoWay}"/>
+        </StackPanel>
     </Grid>
 </Page>

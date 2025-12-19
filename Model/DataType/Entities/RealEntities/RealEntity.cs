@@ -12,7 +12,6 @@ namespace WpfApp1.Model.DataType.Entities.RealEntities
     public class RealEntity : Entity
     {
         public int World { init; get; }
-        public string ?ReadableId { set; get; }
 
         private List<Relation> relations = new();
 

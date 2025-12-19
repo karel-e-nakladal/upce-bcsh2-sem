@@ -13,6 +13,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp1.Model.DataType.Contents;
+using WpfApp1.Model.DataType.Entities;
+using WpfApp1.Model.DataType.Entities.RealEntities;
+using WpfApp1.ViewModel;
 
 namespace WpfApp1.View
 {
@@ -21,14 +24,11 @@ namespace WpfApp1.View
     /// </summary>
     public partial class AddLinkView : Window
     {
-        public AddLinkView(PageBlock? data = null)
+        public AddLinkView(Entity owner, PageBlock? data = null)
         {
             InitializeComponent();
-            if (data is not null && data.Type == ContentType.Link)
-            {
-                Name.Text = (data.Text);
-                ReadableId.Text = (data.Url);
-            }
+
+            DataContext = new AddLinkViewModel(owner, data);
         }
         private void Ok(Object sender, RoutedEventArgs e)
         {

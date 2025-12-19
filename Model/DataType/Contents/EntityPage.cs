@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using WpfApp1.DataType;
+using WpfApp1.Model.DataType.Entities;
 using WpfApp1.View;
 
 
@@ -61,9 +62,7 @@ namespace WpfApp1.Model.DataType.Contents
 
                         link.Click += (sender, e) =>
                         {
-                            var targetEntity = item.Path;
-
-                            var entityPage = new EntityView(targetEntity);
+                            var entityPage = new EntityView((EntityType)item.EntityType, (int)item.EntityId);
 
                             var nav = Manager.GetInstance().MainWindow.MainFrame.Navigate(entityPage);
                         };

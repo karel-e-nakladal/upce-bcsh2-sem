@@ -28,10 +28,10 @@ namespace WpfApp1.View
             InitializeComponent();
             DataContext = new EntityViewModel(entity);
         }
-        public EntityView(string readableId)
+        public EntityView(EntityType type, int id)
         {
             InitializeComponent();
-            DataContext = new EntityViewModel(readableId);
+            DataContext = new EntityViewModel(type, id);
         }
     }
 }

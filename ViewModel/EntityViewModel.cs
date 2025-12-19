@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using WpfApp1.DataType;
 using WpfApp1.Model.DataType.Entities;
 using WpfApp1.Model.DataType.Entities.RealEntities;
@@ -23,6 +24,12 @@ namespace WpfApp1.ViewModel
         [ObservableProperty]
         private FlowDocument page = new();
 
+        [ObservableProperty]
+        private bool hasMap;
+
+        [ObservableProperty]
+        private BitmapImage mapBitmap;
+
         public IRelayCommand BackCommand { get;}
         public IRelayCommand EditEntityCommand { get;}
         public RelayCommand EditCommand { get; }
@@ -34,8 +41,17 @@ namespace WpfApp1.ViewModel
             EditEntityCommand = new RelayCommand(EditEntity);
             initialize();
         }
-        public EntityViewModel(string readableId) {
-            selectedEntity = Manager.GetInstance().GetWorld().GetChildByReadableId(readableId);
+        public EntityViewModel(EntityType type, int id) {
+
+            var tmp = Manager.GetInstance().GetWorld().Children[type][id];
+
+            
+
+            if(tmp is null)
+                return;
+
+            selectedEntity = tmp;
+
             BackCommand = new RelayCommand(Back);
             EditCommand = new RelayCommand(Edit);
             EditEntityCommand = new RelayCommand(EditEntity);
@@ -46,7 +62,18 @@ namespace WpfApp1.ViewModel
         {
             if (SelectedEntity is null || SelectedEntity == null)
                 Back();
-            Page.Blocks.AddRange(SelectedEntity.Content.Build());
+
+            if (selectedEntity.Type == EntityType.Location)
+            {
+                HasMap = true;
+                MapBitmap = ((Location)selectedEntity).MapBitmap;
+            }else if(selectedEntity.Type == EntityType.Nation)
+            {
+                HasMap = true;
+                MapBitmap = ((Nation)selectedEntity).MapBitmap;
+            }
+
+                Page.Blocks.AddRange(SelectedEntity.Content.Build());
         }
 
 
@@ -70,20 +97,19 @@ namespace WpfApp1.ViewModel
             {
                 var vm = (AddEntityViewModel)dia.DataContext;
                 selectedEntity.Name = vm.Name;
-                selectedEntity.ReadableId = vm.ReadableId;
                 selectedEntity.Description = vm.Description;
                 selectedEntity.Icon = vm.IconPath;
 
                 switch (SelectedEntity.Type)
                 {
                     case EntityType.Location:
-                        
+                        ((Location)selectedEntity).Map = vm.MapPath;
                         break;
                     case EntityType.Nation:
-
+                        ((Nation)selectedEntity).Flag = vm.FlagPath;
+                        ((Nation)selectedEntity).Map = vm.MapPath;
                         break;
                     case EntityType.Character:
-
                         ((Character)selectedEntity).Strength = (int)vm.Strength;
                         ((Character)selectedEntity).Dexterity = (int)vm.Dexterity;
                         ((Character)selectedEntity).Constitution = (int)vm.Constitution;

@@ -9,9 +9,22 @@
         <StackPanel Margin="10">
             <TextBlock Text="Create a Link to another Entity" Margin="0,0,0,10"/>
             <TextBlock Text="Displayed text" Margin="0,0,0,2"/>
-            <TextBox x:Name="Name" Margin="0,0,0,5"/>
-            <TextBlock Text="Readable id of the entity you want to link to" Margin="0,5,0,2"/>
-            <TextBox x:Name="ReadableId" Margin="0,0,0,5"/>
+            <TextBox Text="{Binding Name}" Margin="0,0,0,5"/>
+
+            <ComboBox ItemsSource="{Binding EntityLinks}"
+                SelectedItem="{Binding SelectedEntity}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                            <Run Text="[" />
+                            <Run Text="{Binding Type}" />
+                            <Run Text="] " />
+                            <Run Text="{Binding Name}" />
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
                 <Button Content="Ok" Click="Ok" IsDefault="True" Margin="5" Padding="6"/>
                 <Button Content="Cancel" IsCancel="True" Margin="5" Padding="6"/>

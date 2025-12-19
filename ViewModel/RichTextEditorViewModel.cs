@@ -165,6 +165,7 @@ namespace WpfApp1.ViewModel
         private void Image(PageBlock? data = null, int? index = null)
         {
             if (entity is null) return;
+
             var dia = new AddImageView(entity, data);
 
             var position = Mouse.GetPosition(Manager.GetInstance().MainWindow);
@@ -204,7 +205,9 @@ namespace WpfApp1.ViewModel
         }
         private void Link(PageBlock? data = null, int? index = null)
         {
-            var dia = new AddLinkView(data);
+            if(entity is null) return;
+
+            var dia = new AddLinkView(entity, data);
 
             var position = Mouse.GetPosition(Manager.GetInstance().MainWindow);
             var point = Manager.GetInstance().MainWindow.PointToScreen(position);
@@ -214,13 +217,16 @@ namespace WpfApp1.ViewModel
 
             if (dia.ShowDialog() == true)
             {
+                var vm = (AddLinkViewModel)dia.DataContext;
+
                 if (index is not null && data is not null)
                 {
                     content.Content[(int)index] = new PageBlock()
                     {
                         Type = ContentType.Link,
-                        Text = dia.Name.Text,
-                        Url = dia.ReadableId.Text
+                        Text = vm.Name,
+                        EntityType = vm.selectedEntity.Type,
+                        EntityId = vm.selectedEntity.Id
                     };
                 }
                 else
@@ -228,8 +234,9 @@ namespace WpfApp1.ViewModel
                     content.Content.Add(new PageBlock()
                     {
                         Type = ContentType.Link,
-                        Text = dia.Name.Text,
-                        Url = dia.ReadableId.Text
+                        Text = vm.Name,
+                        EntityType = vm.selectedEntity.Type,
+                        EntityId = vm.selectedEntity.Id
                     });
                 }
             }

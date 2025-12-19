@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 using WpfApp1.Database;
 using WpfApp1.DataType;
 using WpfApp1.Model.DataType.Entities.RealEntities;
@@ -11,7 +12,24 @@ namespace WpfApp1.Model.DataType.Entities
 {
     public class World : Entity
     {
-        public string ?Map { set; get; }
+        private string? map;
+
+        public string? Map
+        {
+            get => map;
+            set
+            {
+                if (SetProperty(ref map, value))
+                {
+                    OnPropertyChanged(nameof(MapBitmap));
+                }
+            }
+        }
+
+        public BitmapImage MapBitmap
+        {
+            get => Manager.GetInstance().ImageManager.LoadBitmap(Map);
+        }
 
         public Dictionary<EntityType, Dictionary<int, RealEntity>> ?Children;
 
@@ -97,24 +115,9 @@ namespace WpfApp1.Model.DataType.Entities
             return null;
         }
 
-        public RealEntity? GetChildByReadableId(string readableId)
+        public RealEntity? GetChildByTypeId(EntityType type, int id)
         {
             Load();
-            if (string.IsNullOrEmpty(readableId))
-                return null;
-
-            foreach (var kvp in Children)
-            {
-                var dict = kvp.Value;
-                if (dict == null)
-                    continue;
-
-                foreach (var entity in dict.Values)
-                {
-                    if (entity.ReadableId == readableId)
-                        return entity;
-                }
-            }
 
             return null;
         }

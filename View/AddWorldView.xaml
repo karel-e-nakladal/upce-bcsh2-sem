@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.View"
         mc:Ignorable="d"
-        Title="AddWorldView" Height="400" Width="300">
+        Title="AddWorldView" Height="600" Width="300">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -52,37 +52,52 @@
                 </Style>
             </Border.Style>
 
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,0">
-                <Image Width="64"
-                       Height="64"
-                       Source="{Binding IconBitmap}"
-                       Stretch="Uniform"
-                       Margin="0,0,16,0"/>
+            <StackPanel Orientation="Vertical" Margin="0,0,0,0">
                 <StackPanel>
-                    <TextBlock Text="World icon"
-                               FontWeight="SemiBold"
-                               Margin="0,0,0,6"/>
-                    <StackPanel Orientation="Horizontal">
-                        <Button Content="Change icon"
-                                Width="140"
-                                Command="{Binding ChangeIconCommand}"/>
-                        <Button Content="Delete icon"
-                                Width="100"
-                                Command="{Binding DeleteIconCommand}">
-                            <Button.Style>
-                                <Style TargetType="Button">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsEdited}" Value="True">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                        </Button>
+                    <Image Width="64"
+                           Height="64"
+                           Source="{Binding IconBitmap}"
+                           Stretch="Uniform"
+                           Margin="0,0,16,0"/>
+                    <StackPanel>
+                        <TextBlock Text="World icon"
+                                   FontWeight="SemiBold"
+                                   Margin="0,0,0,6"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Change icon"
+                                    Width="140"
+                                    Command="{Binding ChangeIconCommand}"/>
+                            <Button Content="Delete icon"
+                                    Width="100"
+                                    Command="{Binding DeleteIconCommand}">
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+                
+                <StackPanel>
+                    <Image Width="64"
+                           Height="64"
+                           Source="{Binding MapBitmap}"
+                           Stretch="Uniform"
+                           Margin="0,0,16,0"/>
+                    <StackPanel>
+                        <TextBlock Text="World map"
+                                   FontWeight="SemiBold"
+                                   Margin="0,0,0,6"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Change Map"
+                                    Width="140"
+                                    Command="{Binding ChangeMapCommand}"/>
+                            <Button Content="Delete Map"
+                                    Width="100"
+                                    Command="{Binding DeleteMapCommand}">
+                            </Button>
+                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
+
         </Border>
 
         <StackPanel Grid.Row="4"

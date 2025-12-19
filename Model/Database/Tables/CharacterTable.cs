@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using WpfApp1.Database;
 using WpfApp1.DataType;
 using WpfApp1.Model.DataType.Contents;
+using WpfApp1.Model.DataType.Entities;
 using WpfApp1.Model.DataType.Entities.RealEntities;
 
 namespace WpfApp1.Model.Database.Tables
@@ -39,10 +40,9 @@ namespace WpfApp1.Model.Database.Tables
 
             int pageId = new PageTable().Add(item.Content ?? new EntityPage()).Id; // Creating Page
 
-            cmd.CommandText = "INSERT INTO characters (world_id, readable_id, name, description, icon, strength, dexterity, constitution, intelligence, wisdom, charisma, page_id) VALUES ($world_id, $readable_id, $name, $description, $icon, $strength, $dexterity, $constitution, $intelligence, $wisdom, $charisma, $page_id)";
+            cmd.CommandText = "INSERT INTO characters (world_id, name, description, icon, strength, dexterity, constitution, intelligence, wisdom, charisma, page_id) VALUES ($world_id, $name, $description, $icon, $strength, $dexterity, $constitution, $intelligence, $wisdom, $charisma, $page_id)";
 
             cmd.Parameters.AddWithValue("$world_id", item.World);
-            cmd.Parameters.AddWithValue("$readable_id", item.ReadableId ?? item.Name.ToLower().Replace(" ", "_"));
             cmd.Parameters.AddWithValue("$name", item.Name);
             cmd.Parameters.AddWithValue("$description", item.Description ?? "");
             cmd.Parameters.AddWithValue("$icon", item.Icon ?? Manager.GetInstance().ImageManager.GetDefaultImage());
@@ -77,13 +77,12 @@ namespace WpfApp1.Model.Database.Tables
 
             var cmd = conn.CreateCommand();
 
-            cmd.CommandText = "UPDATE characters SET world_id = $world_id, readable_id = $readable_id, name = $name, description = $description, icon = $icon, strength = $strength, dexterity = $dexterity, constitution = $constitution, intelligence = $intelligence, wisdom = $wisdom, charisma = $charisma WHERE id = $id";
+            cmd.CommandText = "UPDATE characters SET world_id = $world_id, name = $name, description = $description, icon = $icon, strength = $strength, dexterity = $dexterity, constitution = $constitution, intelligence = $intelligence, wisdom = $wisdom, charisma = $charisma WHERE id = $id";
 
             cmd.Parameters.AddWithValue("$world_id", item.World);
-            cmd.Parameters.AddWithValue("$readable_id", item.ReadableId ?? item.Name.ToLower().Replace(" ", "_"));
             cmd.Parameters.AddWithValue("$name", item.Name);
             cmd.Parameters.AddWithValue("$description", item.Description);
-            cmd.Parameters.AddWithValue("$icon", item.Icon ?? "");
+            cmd.Parameters.AddWithValue("$icon", item.Icon ?? Manager.GetInstance().ImageManager.GetDefaultImage());
 
             cmd.Parameters.AddWithValue("$strength", item.Strength);
             cmd.Parameters.AddWithValue("$dexterity", item.Dexterity);
@@ -105,16 +104,14 @@ namespace WpfApp1.Model.Database.Tables
         {
             Character removed = Get(id);
 
-            Manager.GetInstance().ImageManager.DeleteEntity(removed.Type, removed.World, removed.Id);
+            Manager.GetInstance().ImageManager.DeleteEntity(EntityType.Character, removed.World, id);
 
             var conn = _db.getConnection();
 
             var cmd = conn.CreateCommand();
 
-            new PageTable().Remove(Get(id).Content.Id); // Deleting Page
-
             cmd.CommandText = "DELETE FROM characters WHERE id = $id";
-
+            
             cmd.Parameters.AddWithValue("$id", id);
 
             cmd.ExecuteNonQuery();
@@ -129,17 +126,16 @@ namespace WpfApp1.Model.Database.Tables
             {
                 Id = reader.GetInt32(0),
                 World = reader.GetInt32(1),
-                ReadableId = reader.GetString(2),
-                Name = reader.GetString(3),
-                Description = reader.GetString(4),
-                Icon = reader.GetString(5),
-                Strength = reader.GetInt32(6),
-                Dexterity = reader.GetInt32(7),
-                Constitution = reader.GetInt32(8),
-                Intelligence = reader.GetInt32(9),
-                Wisdom = reader.GetInt32(10),
-                Charisma = reader.GetInt32(11),
-                Content = new PageTable().Get(reader.GetInt32(12)) // Getting Page
+                Name = reader.GetString(2),
+                Description = reader.GetString(3),
+                Icon = reader.GetString(4),
+                Strength = reader.GetInt32(5),
+                Dexterity = reader.GetInt32(6),
+                Constitution = reader.GetInt32(7),
+                Intelligence = reader.GetInt32(8),
+                Wisdom = reader.GetInt32(9),
+                Charisma = reader.GetInt32(10),
+                Content = new PageTable().Get(reader.GetInt32(11)) // Getting Page
             };
         }
     }

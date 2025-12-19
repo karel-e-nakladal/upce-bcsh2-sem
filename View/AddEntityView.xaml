@@ -51,6 +51,59 @@
             </Border>
         </DataTemplate>
 
+        <!-- ==== LOCATION ==== -->
+        <DataTemplate x:Key="LocationTemplate">
+            <Border Padding="10" CornerRadius="6" BorderThickness="1">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsEdited}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0,16,0,0">
+                    <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
+                        <Image Width="64" Height="64" Source="{Binding MapBitmap}" Margin="0,0,16,0"/>
+                        <Button Content="Change map" Command="{Binding ChangeMapCommand}" Width="140"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+
+        <!-- ==== NATION ==== -->
+        <DataTemplate x:Key="NationTemplate">
+            <Border Padding="10" CornerRadius="6" BorderThickness="1">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsEdited}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0,16,0,0">
+                    <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
+                        <Image Width="64" Height="64" Source="{Binding FlagBitmap}" Margin="0,0,16,0"/>
+                        <Button Content="Change flag" Command="{Binding ChangeFlagCommand}" Width="140"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
+                        <Image Width="64" Height="64" Source="{Binding MapBitmap}" Margin="0,0,16,0"/>
+                        <Button Content="Change map" Command="{Binding ChangeMapCommand}" Width="140"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+
 
         <DataTemplate x:Key="EmptyTemplate">
             <StackPanel/>
@@ -64,25 +117,24 @@
                 <TextBlock Text="Entity name" Margin="0,0,0,4"/>
                 <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                <TextBlock Text="Readable ID" Margin="0,12,0,4"/>
-                <TextBox Text="{Binding ReadableId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Border Padding="10" Margin="0,16,0,0" CornerRadius="6" BorderThickness="1">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsEdited}" Value="True">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
 
-                <StackPanel Margin="0,12,0,0">
-                    <TextBlock Text="Entity type" Margin="0,0,0,4"/>
-                    <ComboBox ItemsSource="{Binding TypeOptions}"
-                        SelectedItem="{Binding SelectedType}">
-                        <ComboBox.Style>
-                            <Style TargetType="ComboBox">
-                                <Setter Property="Visibility" Value="Visible"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsEdited}" Value="True">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </ComboBox.Style>
-                    </ComboBox>
-                </StackPanel>
+                        <StackPanel>
+                            <TextBlock Text="Entity type" Margin="0,0,0,4"/>
+                            <ComboBox ItemsSource="{Binding TypeOptions}"
+                                SelectedItem="{Binding SelectedType}"/>
+                        </StackPanel>
+                    </Border>
 
                 <Border Padding="10" Margin="0,16,0,0" CornerRadius="6" BorderThickness="1">
                     <Border.Style>
@@ -119,6 +171,12 @@
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding SelectedType}" Value="Item">
                                     <Setter Property="ContentTemplate" Value="{StaticResource ItemTemplate}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding SelectedType}" Value="Location">
+                                    <Setter Property="ContentTemplate" Value="{StaticResource LocationTemplate}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding SelectedType}" Value="Nation">
+                                    <Setter Property="ContentTemplate" Value="{StaticResource NationTemplate}"/>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>

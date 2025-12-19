@@ -75,8 +75,8 @@ namespace WpfApp1.Model.Database.Tables
 
             cmd.Parameters.AddWithValue("$name", item.Name);
             cmd.Parameters.AddWithValue("$description", item.Description);
-            cmd.Parameters.AddWithValue("$icon", item.Icon);
-            cmd.Parameters.AddWithValue("$map", item.Map);
+            cmd.Parameters.AddWithValue("$icon", item.Icon ?? Manager.GetInstance().ImageManager.GetDefaultImage());
+            cmd.Parameters.AddWithValue("$map", item.Map ?? Manager.GetInstance().ImageManager.GetDefaultImage());
             cmd.Parameters.AddWithValue("$id", item.Id);
 
             item.Content.Update(); // Updating Page
@@ -90,14 +90,11 @@ namespace WpfApp1.Model.Database.Tables
         {
             World removed = Get(id);
 
-            Manager.GetInstance().ImageManager.DeleteEntity(removed.Type, removed.Id);
+            Manager.GetInstance().ImageManager.DeleteEntity(EntityType.World, id);
 
             var conn = _db.getConnection();
 
             var cmd = conn.CreateCommand();
-
-            var page = Get(id).Content;
-            new PageTable().Remove(page.Id); // Deleting Page
 
             cmd.CommandText = "DELETE FROM worlds WHERE id = $id";
 

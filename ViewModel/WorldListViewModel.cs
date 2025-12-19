@@ -32,6 +32,7 @@ namespace WpfApp1.ViewModel
         public WorldListViewModel()
         {
             worlds = new ObservableCollection<World>(Manager.GetInstance().GetWorlds());
+            selectedWorld = Manager.GetInstance().GetWorld();
             SelectCommand = new RelayCommand(Select);
             AddCommand = new RelayCommand(Add);
             EditCommand = new RelayCommand(Edit);
@@ -72,9 +73,7 @@ namespace WpfApp1.ViewModel
         {
             if (SelectedWorld is null)
                 return;
-            SelectedWorld.Remove();
-            Worlds.Remove(SelectedWorld);
-            SelectedWorld = null;
+            Manager.GetInstance().RemoveWorld(SelectedWorld);
 
             Manager.GetInstance().MainWindow.MainFrame.Navigate(new WorldListView());
         }
@@ -97,6 +96,7 @@ namespace WpfApp1.ViewModel
                 SelectedWorld.Name = vm.Name;
                 SelectedWorld.Description = vm.Description;
                 SelectedWorld.Icon = vm.IconPath;
+                SelectedWorld.Map = vm.MapPath;
                 SelectedWorld.Update();
 
                 Manager.GetInstance().MainWindow.MainFrame.Navigate(new WorldListView());
