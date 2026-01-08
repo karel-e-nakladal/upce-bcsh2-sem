@@ -54,7 +54,7 @@ namespace WpfApp1.Model.Database.Tables
 
             cmd = conn.CreateCommand();
 
-            cmd.CommandText = "SELECT * FROM locations ORDER BY id DESC LIMIT 1";
+            cmd.CommandText = "SELECT * FROM nations ORDER BY id DESC LIMIT 1";
 
             var reader = cmd.ExecuteReader();
 
