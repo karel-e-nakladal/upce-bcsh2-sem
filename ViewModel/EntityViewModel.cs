@@ -32,6 +32,7 @@ namespace WpfApp1.ViewModel
 
         public IRelayCommand BackCommand { get;}
         public IRelayCommand EditEntityCommand { get;}
+        public IRelayCommand RemoveEntityCommand { get;}
         public RelayCommand EditCommand { get; }
 
         public EntityViewModel(RealEntity entity) {
@@ -39,6 +40,7 @@ namespace WpfApp1.ViewModel
             BackCommand = new RelayCommand(Back);
             EditCommand = new RelayCommand(Edit);
             EditEntityCommand = new RelayCommand(EditEntity);
+            RemoveEntityCommand = new RelayCommand(RemoveEntity);
             initialize();
         }
         public EntityViewModel(EntityType type, int id) {
@@ -79,6 +81,28 @@ namespace WpfApp1.ViewModel
 
         private void Back()
         {
+            Manager.GetInstance().GetWorld().Load();
+            Manager.GetInstance().MainWindow.MainFrame.Navigate(new WorldView());
+        }
+
+        public void RemoveEntity()
+        {
+            switch (SelectedEntity.Type)
+            {
+                case EntityType.Location:
+                    Manager.GetInstance().Database.Location.Remove(selectedEntity.Id);
+                    break;
+                case EntityType.Nation:
+                    Manager.GetInstance().Database.Nation.Remove(selectedEntity.Id);
+                    break;
+                case EntityType.Character:
+                    Manager.GetInstance().Database.Character.Remove(selectedEntity.Id);
+                    break;
+                case EntityType.Item:
+                    Manager.GetInstance().Database.Item.Remove(selectedEntity.Id);
+                    break;
+            }
+            Manager.GetInstance().ImageManager.DeleteEntity(selectedEntity.Type, selectedEntity.World, selectedEntity.Id);
             Manager.GetInstance().GetWorld().Load();
             Manager.GetInstance().MainWindow.MainFrame.Navigate(new WorldView());
         }

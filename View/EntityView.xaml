@@ -106,6 +106,8 @@
             <Separator Margin="0,10"/>
             <Button Content="Edit Page" Command="{Binding EditCommand}" Margin="0,5,0,0" Padding="6"/>
             <Button Content="Edit Entity" Command="{Binding EditEntityCommand}"/>
+
+            <Button Content="Remove Entity" Command="{Binding RemoveEntityCommand}" Margin=" 0,20,0,0"/>
         </StackPanel>
 
         <StackPanel Grid.Column="1">
